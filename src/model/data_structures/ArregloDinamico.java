@@ -59,7 +59,9 @@ public class ArregloDinamico implements IArregloDinamico {
 
 		public String darElemento(int i) {
 			// TODO implementar
-			return null;
+			String respuesta = "";
+			respuesta+=elementos[i];
+			return respuesta;
 		}
 
 		public String buscar(String dato) {

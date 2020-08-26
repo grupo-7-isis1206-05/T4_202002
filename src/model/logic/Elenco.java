@@ -125,4 +125,13 @@ public class Elenco
 	{
 		return editorName;
 	}
+	
+	public String darActores()
+	{
+		return actor1+", "+
+				actor2+", "+
+				actor3+", "+
+				actor4+", "+
+				actor5;
+	}
 }

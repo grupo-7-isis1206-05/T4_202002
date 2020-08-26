@@ -144,6 +144,17 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
 		 
 		return elementos[i];
 	}
+
+
+
+
+
+
+	@Override
+	public int compareTo(T o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }
 
 

@@ -24,7 +24,7 @@ public  class Pelicula {
 	private String proCompaniesNumber;
 	private String proCompaniesCountryNumber;
 	private String spokenLanguagesNumber;
-	 
+
 	public Pelicula (String pId, String pGenres, String pImbd, String pOriginalLang, String pOriginalTitle, String pOverview, String pPopularity, String pProCompanies, String pProCountries, String pReleaseDate, String pRevenue, String pRuntime, String pSpokenLanguages, String pStatus, String pTagline, String pTitle, String pVoteAverage, String pVoteCount,String pProCompaniesNumber, String pProCompaniesCountryNumber, String pSpokenLanguagesNumber )
 	{
 		id= pId;
@@ -45,11 +45,11 @@ public  class Pelicula {
 		title = pTitle;
 		voteAverage = pVoteAverage;
 		voteCount = pVoteCount;
-	    proCompaniesNumber = pProCompaniesNumber;
-		 proCompaniesCountryNumber = pProCompaniesCountryNumber;
+		proCompaniesNumber = pProCompaniesNumber;
+		proCompaniesCountryNumber = pProCompaniesCountryNumber;
 		spokenLanguagesNumber = pSpokenLanguagesNumber;
 	}
-	
+
 	public String darId()
 	{
 		return id;
@@ -90,7 +90,7 @@ public  class Pelicula {
 	{
 		return releaseDate;
 	}
-	
+
 	public String darRevenue()
 	{
 		return revenue;
@@ -136,4 +136,14 @@ public  class Pelicula {
 		return spokenLanguagesNumber;
 	}
 
+
+	public String darDatosReq()
+	{
+		return id+", "+
+				title+", "+
+				genres+", "+
+				releaseDate+", ";
+
+
+	}
 }

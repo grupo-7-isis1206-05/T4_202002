@@ -18,7 +18,9 @@ public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private IArregloDinamico<String> datos;
+	private IArregloDinamico<Pelicula> peliculas;
+	private IArregloDinamico<Elenco> elenco;
+	
 	
 	
 	/**
@@ -26,49 +28,15 @@ public class Modelo {
 	 */
 	public Modelo()
 	{
-		datos = new ArregloDinamico(120);
+		peliculas = new ArregloDinamico(120);
+		elenco = new ArregloDinamico(120);
+		
 	}
 	
 	
 	
 	
-	/**
-	 * Servicio de consulta de numero de elementos presentes en el modelo 
-	 * @return numero de elementos presentes en el modelo
-	 */
-	public int darTamano()
-	{
-		return datos.darTamano();
-	}
 
-	/**
-	 * Requerimiento de agregar dato
-	 * @param dato
-	 */
-	public void agregar(String dato)
-	{	
-		datos.agregar(dato);
-	}
-	
-	/**
-	 * Requerimiento buscar dato
-	 * @param dato Dato a buscar
-	 * @return dato encontrado
-	 */
-	public String buscar(String dato)
-	{
-		return datos.buscar(dato);
-	}
-	
-	/**
-	 * Requerimiento eliminar dato
-	 * @param dato Dato a eliminar
-	 * @return dato eliminado
-	 */
-	public String eliminar(String dato)
-	{
-		return datos.eliminar(dato);
-	}
 
 
    
@@ -114,6 +82,7 @@ public class Modelo {
                      Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
                     		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
                     		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
+                     peliculas.agregar(actual);
                      
                     
 
@@ -142,7 +111,7 @@ public class Modelo {
                     String editorName = datos[18];
                     
                     Elenco actual = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
-                   
+                   elenco.agregar(actual);
                 }
 
             } catch (FileNotFoundException e) {
@@ -165,7 +134,27 @@ public class Modelo {
     	public String buenasPeliculas(String director)
     	{
     		String respuesta = "";
-    		
+    		String idABuscar="";
+    		int i = 0;
+    		int j =0;
+    		while(i<elenco.darTamano())
+    		{
+    			String directorA = elenco.darElemento(i).darDirectorName();
+    			if(directorA.equalsIgnoreCase(director))
+    			{
+    				idABuscar=elenco.darElemento(i).darId();
+    				respuesta += elenco.darElemento(i).darActores();
+    			}
+    		}
+    		while(j<peliculas.darTamano())
+    		{
+    			String actualID = peliculas.darElemento(j).darId();
+    			if (actualID.equalsIgnoreCase(idABuscar))
+    			{
+    				respuesta+=", "+ peliculas.darElemento(j).darDatosReq();
+    			}
+    			
+    		}
     		
     		return respuesta;
     	}

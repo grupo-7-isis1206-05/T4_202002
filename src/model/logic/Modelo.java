@@ -18,24 +18,19 @@ public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private IArregloDinamico datos;
+	private IArregloDinamico<String> datos;
+	
 	
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
 	public Modelo()
 	{
-		datos = new ArregloDinamico(7);
+		datos = new ArregloDinamico(120);
 	}
 	
-	/**
-	 * Constructor del modelo del mundo con capacidad dada
-	 * @param tamano
-	 */
-	public Modelo(int capacidad)
-	{
-		datos = new ArregloDinamico(capacidad);
-	}
+	
+	
 	
 	/**
 	 * Servicio de consulta de numero de elementos presentes en el modelo 
@@ -77,11 +72,11 @@ public class Modelo {
 
 
    
-    	public ArregloDinamico cargarDato() throws IOException 
+    	public void cargarDato() throws IOException 
         {
         
-        	String csvFile = "data/SmallMoviesDetailsCleaned.csv";
-        	String archivo = "data/MoviesCastingRaw-small.csv";
+        	String csvFile = "./data/SmallMoviesDetailsCleaned.csv";
+        	String archivo = "./data/MoviesCastingRaw-small.csv";
             BufferedReader br = null;
             BufferedReader pr = null;
             String line = "";
@@ -93,7 +88,6 @@ public class Modelo {
                 br = new BufferedReader(new FileReader(csvFile));
                 while ((line = br.readLine()) != null) {
 
-                    // use comma as separator
                     String[] datos = line.split(cvsSplitBy);
                     String id = datos[0];
                     String genres = datos[1];
@@ -120,6 +114,7 @@ public class Modelo {
                      Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
                     		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
                     		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
+                     
                     
 
                 }
@@ -163,8 +158,17 @@ public class Modelo {
                     }
                 }
             }
-        	return null;
+        	
         }
+    	
+    	
+    	public String buenasPeliculas(String director)
+    	{
+    		String respuesta = "";
+    		
+    		
+    		return respuesta;
+    	}
     
 
 }

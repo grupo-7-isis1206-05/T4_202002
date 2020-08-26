@@ -1,6 +1,8 @@
 package model.logic;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Reader;
 import java.nio.file.Files;
@@ -17,6 +19,7 @@ import model.data_structures.IArregloDinamico;
  *
  */
 public class Modelo {
+	
 	/**
 	 * Atributos del modelo del mundo
 	 */
@@ -78,33 +81,71 @@ public class Modelo {
 	}
 
 
-    public ArregloDinamico cargarDato () 
-    {
-    	try {
-
-         	Reader reader = Files.newBufferedReader(Paths.get("/data/MoviesCastingRaw-small.csv"));
-             CSVReader csvReader = new CSVReader(reader);
-             String[] nextRecord;
-             while ((nextRecord = csvReader.readNext()) != null) {
-    			    System.out.println("Name : " + nextRecord[0]);
-    			    System.out.println("Email : " + nextRecord[1]);
-    			    System.out.println("Phone : " + nextRecord[2]);
-    			    System.out.println("Country : " + nextRecord[3]);
-    			    System.out.println("==========================");
-    			}
-             
-         } 
+   
+    	public ArregloDinamico cargarDato() throws IOException 
+        {
         
-         
-    		catch (CsvValidationException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
-    		catch (IOException e) {
-    			// TODO Auto-generated catch block
-    			e.printStackTrace();
-    		}
-    	return null;
-    }
+        	String csvFile = "data/SmallMoviesDetailsCleaned.csv";
+            BufferedReader br = null;
+            String line = "";
+            String cvsSplitBy = ";";
+           
+
+            try {
+
+                br = new BufferedReader(new FileReader(csvFile));
+                while ((line = br.readLine()) != null) {
+
+                    // use comma as separator
+                    String[] datos = line.split(cvsSplitBy);
+                    String id = datos[0];
+                    String genres = datos[1];
+                    String imbd = datos[2];
+                    String originalLang = datos[3];
+                    String originalTitle = datos[4];
+                    String overview = datos[5];
+                    String popularity = datos[6];
+                    String proCompanies = datos[7];
+                    String proCountries = datos[8];
+                    String releaseDate = datos[9];
+                    String revenue = datos[10];
+                    String runtime = datos[11];
+                    String spokenLanguages = datos[12];
+                    String status = datos[13];
+                    String tagline = datos[14];
+                    String title = datos[15];
+                    String voteAverage = datos[16];
+                    String voteCount = datos[17];
+                    String proCompaniesNumber = datos[18];
+                    String proCompaniesCountryNumber = datos[19];
+                    String spokenLanguagesNumber = datos[20];
+                 
+                     Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
+                    		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
+                    		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
+                 
+                    
+                    
+                    System.out.println(datos[1]);
+                    
+
+                }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } finally {
+                if (br != null) {
+                    try {
+                        br.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        	return null;
+        }
+    
 
 }

@@ -1,5 +1,6 @@
 package controller;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 import model.logic.Modelo;
@@ -37,7 +38,12 @@ public class Controller {
 			switch(option){
 				case 1:
 					
+				try {
 					modelo.cargarDato();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 					view.printMessage("--------- \nCrear Arreglo \nDar capacidad inicial del arreglo: ");
 				    int capacidad = lector.nextInt();
 				    modelo = new Modelo(capacidad); 

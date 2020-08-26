@@ -1,8 +1,7 @@
 package model.logic;
 
-import model.data_structures.IArregloDinamico;
 
-public  class Pelicula implements IArregloDinamico {
+public  class Pelicula {
 
 	private String id;
 	private String genres;

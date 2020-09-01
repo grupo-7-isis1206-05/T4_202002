@@ -2,7 +2,7 @@ package model.data_structures;
 
 import com.sun.javafx.collections.ElementObservableListDecorator;
 
-public class ListaEncadenada implements IListaEncadenada<Nodo>{
+public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 
 
 	private Nodo primero;
@@ -18,41 +18,53 @@ public class ListaEncadenada implements IListaEncadenada<Nodo>{
 
 	public void addFirst(Nodo element) {
 		// TODO Auto-generated method stub
-		if (isEmpty())
+		if (tamano==0)
 		{
 			primero=element;
 			ultimo= element;
 			tamano++;
 		}
-
+		else {
 		Nodo salvar = primero;
 
 		primero=element;
 
-		element.cambiarPosicion(1);
+		
 
-		insert(salvar, 2);
-
+		element.cambiarSiguiente(salvar);
+		salvar.cambiarAnterior(primero);
+		int i =1;
+		Nodo actual = primero;
+		while (actual!=null)
+		{
+			actual.cambiarPosicion(i);
+			i++;
+			actual=actual.darSiguiente();
+		}
+		tamano++;
+		}
 
 	}
 
 	@Override
 	public void addLast(Nodo element) {
 		// TODO Auto-generated method stub
+		
+		ultimo.cambiarSiguiente(element);
+		element.cambiarAnterior(ultimo);
+		ultimo=element;
 		tamano++;
-		insert(element, tamano);
-		tamano--;
-
 	}
 
 	@Override
 	public void insert(Nodo element, int posicion) {
 		// TODO Auto-generated method stub
-		int i =0;
+		Nodo actual=primero;
 		element.cambiarPosicion(posicion);
-		while(i<tamano)
+		boolean agregado =false;
+		while(actual!=null&&!agregado)
 		{
-			Nodo actual = primero;
+			
 			if (actual.darPosicion()==posicion-1)
 			{
 				element.cambiarSiguiente(actual.darSiguiente());
@@ -60,8 +72,9 @@ public class ListaEncadenada implements IListaEncadenada<Nodo>{
 				actual.darSiguiente().cambiarAnterior(element);
 				actual.cambiarSiguiente(element);
 				element.darSiguiente().cambiarPosicion(posicion++);
+				agregado=true;
 			}
-			i++;
+			actual=actual.darSiguiente();
 		}
 		tamano++;
 	}
@@ -74,7 +87,7 @@ public class ListaEncadenada implements IListaEncadenada<Nodo>{
 		primero=primero.darSiguiente();
 
 		Nodo actual=primero;
-		while(actual.darSiguiente()!=null)
+		while(actual!=null)
 		{
 			actual.cambiarPosicion(actual.darPosicion()-1);
 			actual=actual.darSiguiente();
@@ -141,7 +154,7 @@ public class ListaEncadenada implements IListaEncadenada<Nodo>{
 		int i=0;
 		Nodo respuesta=null;
 		Nodo actual=primero;
-		while(actual.darSiguiente()!=null)
+		while(actual!=null)
 		{
 			if(actual.darPosicion()==posicion)
 			{
@@ -242,12 +255,41 @@ public class ListaEncadenada implements IListaEncadenada<Nodo>{
 	{
 		String respuesta ="";
 		Nodo actual=primero;
-		while(actual.darSiguiente()!=null)
+		while(actual!=null)
 		{
-			respuesta+=actual.darPosicion()+"/n";
+			respuesta+=actual.darPosicion()+"\n";
 			actual=actual.darSiguiente();
 
 		}
+		return respuesta;
+	}
+	
+	public String toString()
+	{
+		String respuesta="";
+		Nodo actual=primero;
+		while(actual!=null)
+		{
+			respuesta+=actual.toString()+"\n";
+			actual=actual.darSiguiente();
+		}
+		
+		return respuesta;
+	}
+	
+	public int existe(T algo)
+	{
+		int respuesta=0;
+		Nodo actual=primero;
+		while(actual != null)
+		{
+			if(actual.darFeatures().equals(algo))
+			{
+				respuesta=actual.darPosicion();
+			}
+			actual=actual.darSiguiente();
+		}
+		
 		return respuesta;
 	}
 }

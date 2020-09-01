@@ -8,6 +8,8 @@ import java.io.IOException;
 
 import model.data_structures.ArregloDinamico;
 import model.data_structures.IArregloDinamico;
+import model.data_structures.ListaEncadenada;
+import model.data_structures.Nodo;
 
 /**
  * Definicion del modelo del mundo
@@ -20,6 +22,7 @@ public class Modelo {
 	 */
 	private IArregloDinamico<Pelicula> peliculas;
 	private IArregloDinamico<Elenco> elenco;
+	private ListaEncadenada lista;
 	
 	private int counterPeliculas;
 	
@@ -30,12 +33,28 @@ public class Modelo {
 	{
 		peliculas = new ArregloDinamico(120);
 		elenco = new ArregloDinamico(120);
+		lista= new ListaEncadenada();
 		
 	}
 	
 	
 	
-	
+	public void probarLista()
+	{
+		Nodo primero = new Nodo<String>("a", null, null, 1);
+		Nodo segundo = new Nodo<String>("b", null, null, 2);
+		Nodo tercero = new Nodo<String>("c", null, null, 3);
+		Nodo cuarto = new Nodo<String>("d", null, null, 4);
+		Nodo quinto = new Nodo<String>("e", null, null, 5);
+		Nodo sexto = new Nodo<String>("f",null, null, 6);
+		
+		lista.addFirst(primero);
+		lista.addLast(segundo);
+		lista.addLast(tercero);
+		lista.addLast(cuarto);
+		lista.addLast(quinto);
+		lista.addLast(sexto);
+	}
 
 
 
@@ -158,6 +177,14 @@ public class Modelo {
     		
     		return respuesta;
     	}
-    
+    	public String toString()
+    	{
+    		return lista.toString();
+    	}
+    	
+    	public ListaEncadenada darLista()
+    	{
+    		return lista;
+    	}
 
 }

@@ -1,6 +1,7 @@
 package model.data_structures;
+import java.lang.Comparable;
 
-public class Nodo<T extends Comparable<T>> implements Comparable<Nodo<T>> {
+public class Nodo<T> implements Comparable<T>{
 	
 	private T datos;
 	private Nodo siguiente;
@@ -48,15 +49,19 @@ public class Nodo<T extends Comparable<T>> implements Comparable<Nodo<T>> {
 	public void changeInfo(T info)
 	{
 		datos=info;
-		
-		
+	}
+	
+	public String toString()
+	{
+		return ""+datos;
 	}
 
 	@Override
-	public int compareTo(Nodo<T> o) {
+	public int compareTo(T o) {
 		// TODO Auto-generated method stub
-		return this.datos.compareTo(o.datos);
+		return this.compareTo(o);
 	}
+
 	
 	
 	

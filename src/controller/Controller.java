@@ -61,7 +61,24 @@ public class Controller {
 					lector.close();
 					fin = true;
 					System.exit(0);
-					break;	
+					break;
+					
+				case 4: 
+					modelo.probarLista();
+					view.printMessage(modelo.toString());
+					view.printMessage("\n ------------- \n");
+					view.printMessage(modelo.darLista().posiciones());
+					
+							break;
+							
+				case 5: 
+					modelo.probarLista();
+					String algo = lector.next();
+					
+					int noSe = modelo.darLista().existe(algo);
+					view.printMessage(""+noSe);
+					break;
+					
 
 				default: 
 					view.printMessage("--------- \n Opcion Invalida !! \n---------");

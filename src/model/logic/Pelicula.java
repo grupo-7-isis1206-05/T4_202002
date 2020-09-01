@@ -136,7 +136,31 @@ public  class Pelicula {
 		return spokenLanguagesNumber;
 	}
 
-
+	public String toString()
+	{
+		return id+"\n"
+				+ genres+"\n"
+				+ imbd +"\n"
+				+ originalLang+"\n"
+				+ originalTitle+"\n"
+				+ overview+"\n"
+				+ popularity+"\n"
+				+ proCompanies+"\n"
+				+ proCountries+"\n"
+				+ releaseDate+"\n"
+				+ revenue+"\n"
+				+ runtime+"\n"
+				+ spokenLanguages+"\n"
+				+ status+"\n"
+				+ tagline+"\n"
+				+ title+"\n"
+				+ voteAverage+"\n"
+				+ voteCount+"\n"
+				+ proCompaniesNumber+"\n"
+				+ proCompaniesCountryNumber+"\n"
+				+ spokenLanguagesNumber;
+				
+	}
 	public String darDatosReq()
 	{
 		return id+", "+

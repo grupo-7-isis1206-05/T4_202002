@@ -63,21 +63,9 @@ public class Controller {
 					System.exit(0);
 					break;
 					
-				case 4: 
-					modelo.probarLista();
-					view.printMessage(modelo.toString());
-					view.printMessage("\n ------------- \n");
-					view.printMessage(modelo.darLista().posiciones());
+				
+				
 					
-							break;
-							
-				case 5: 
-					modelo.probarLista();
-					String algo = lector.next();
-					
-					int noSe = modelo.darLista().existe(algo);
-					view.printMessage(""+noSe);
-					break;
 					
 
 				default: 

@@ -126,6 +126,29 @@ public class Elenco
 		return editorName;
 	}
 	
+	public String toString()
+	{
+		return id+ "\n"
+				+ actor1+ "\n"
+				+ gender1 + "\n"
+				+ actor2+ "\n"
+				+ gender2+ "\n"
+				+ actor3+ "\n"
+				+ gender3+ "\n"
+				+ actor4+ "\n"
+				+ gender4+ "\n"
+				+ actor5+ "\n"
+				+ gender5+ "\n"
+				+ actorNumber+ "\n"
+				+ directorName+ "\n"
+				+ directorGender+ "\n"
+				+ directorNumber+ "\n"
+				+ producerName+ "\n"
+				+ producerNumber+ "\n"
+				+ screenName+ "\n"
+				+ editorName;
+	}
+	
 	public String darActores()
 	{
 		return actor1+", "+

@@ -1,6 +1,7 @@
 package model.logic;
 
 import java.io.BufferedReader;
+
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
@@ -10,6 +11,7 @@ import model.data_structures.ArregloDinamico;
 import model.data_structures.IArregloDinamico;
 import model.data_structures.ListaEncadenada;
 import model.data_structures.Nodo;
+import model.logic.Pelicula;
 
 /**
  * Definicion del modelo del mundo
@@ -22,7 +24,9 @@ public class Modelo {
 	 */
 	private IArregloDinamico<Pelicula> peliculas;
 	private IArregloDinamico<Elenco> elenco;
-	private ListaEncadenada lista;
+	private ListaEncadenada listaPeliculas;
+	private ListaEncadenada listaElenco;
+	
 	
 	private int counterPeliculas;
 	
@@ -33,29 +37,13 @@ public class Modelo {
 	{
 		peliculas = new ArregloDinamico(120);
 		elenco = new ArregloDinamico(120);
-		lista= new ListaEncadenada();
-		
+		listaPeliculas= new ListaEncadenada();
+		listaElenco= new ListaEncadenada();
 	}
 	
 	
 	
-	public void probarLista()
-	{
-		Nodo primero = new Nodo<String>("a", null, null, 1);
-		Nodo segundo = new Nodo<String>("b", null, null, 2);
-		Nodo tercero = new Nodo<String>("c", null, null, 3);
-		Nodo cuarto = new Nodo<String>("d", null, null, 4);
-		Nodo quinto = new Nodo<String>("e", null, null, 5);
-		Nodo sexto = new Nodo<String>("f",null, null, 6);
-		
-		lista.addFirst(primero);
-		lista.addLast(segundo);
-		lista.addLast(tercero);
-		lista.addLast(cuarto);
-		lista.addLast(quinto);
-		lista.addLast(sexto);
-	}
-
+	
 
 
    
@@ -68,7 +56,8 @@ public class Modelo {
             BufferedReader pr = null;
             String line = "";
             String cvsSplitBy = ";";
-           
+            int posicionPeli =1;
+            int posicionElenco=1;
 
             try {
 
@@ -101,8 +90,9 @@ public class Modelo {
                      Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
                     		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
                     		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
-                     peliculas.agregar(actual);
-                     
+                     Nodo agregar = new Nodo<Pelicula>(actual, null, null, posicionPeli);
+                     listaPeliculas.addLast(agregar);
+                     posicionPeli++;
                     
 
                 }
@@ -130,7 +120,9 @@ public class Modelo {
                     String editorName = cast[18];
                     
                     Elenco actual = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
-                   elenco.agregar(actual);
+                    Nodo agrego = new Nodo<Elenco>(actual, null,null, posicionElenco);
+                    listaElenco.addLast(agrego);
+                    posicionElenco++;
                 }
 
             } catch (FileNotFoundException e) {
@@ -158,7 +150,7 @@ public class Modelo {
     		int j =0;
     		while(i<elenco.darTamano())
     		{
-    			String directorA = elenco.darElemento(i).darDirectorName();
+    			String directorA = listaPeliculas.element(i).toString();
     			if(directorA.equalsIgnoreCase(director))
     			{
     				idABuscar=elenco.darElemento(i).darId();
@@ -177,14 +169,22 @@ public class Modelo {
     		
     		return respuesta;
     	}
-    	public String toString()
+    	public String toStringPeli()
     	{
-    		return lista.toString();
+    		return listaPeliculas.toString();
+    	}
+    	public String toStringElenco()
+    	{
+    		return listaElenco.toString();
     	}
     	
-    	public ListaEncadenada darLista()
+    	public ListaEncadenada darListaPeli()
     	{
-    		return lista;
+    		return listaPeliculas;
+    	}
+    	public ListaEncadenada darListaElenco()
+    	{
+    		return listaElenco;
     	}
 
 }

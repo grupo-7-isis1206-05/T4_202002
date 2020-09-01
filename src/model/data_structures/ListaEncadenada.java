@@ -49,11 +49,18 @@ public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 	@Override
 	public void addLast(Nodo element) {
 		// TODO Auto-generated method stub
-		
+		if(tamano==0)
+		{
+			primero=element;
+			ultimo= element;
+			tamano++;
+		}
+		else {
 		ultimo.cambiarSiguiente(element);
 		element.cambiarAnterior(ultimo);
 		ultimo=element;
 		tamano++;
+		}
 	}
 
 	@Override
@@ -236,18 +243,22 @@ public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 	public boolean checkPosiciones()
 	{	
 		boolean respuesta = false;
-		for (int i = 0; i <= tamano; i++) {
-			Nodo actual = element(i);
-			for (int j = i+1 ; j <= tamano; j++) {
-				Nodo actual2=element(j);
-				if(actual.darPosicion()==actual2.darPosicion())
+
+		Nodo nodo1 = primero;
+		Nodo nodo2 = primero.darSiguiente();
+		while(nodo1!=null&&!respuesta)
+		{
+			while(nodo2!=null)
+			{
+				if(nodo1.darPosicion()==nodo2.darPosicion())
 				{
 					respuesta=true;
 				}
-
+				nodo2=nodo2.darSiguiente();
 			}
-
+			nodo1=nodo1.darSiguiente();
 		}
+		
 		return respuesta;
 	}
 
@@ -283,7 +294,7 @@ public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 		Nodo actual=primero;
 		while(actual != null)
 		{
-			if(actual.darFeatures().equals(algo))
+			if(actual.darDatos().equals(algo))
 			{
 				respuesta=actual.darPosicion();
 			}
@@ -291,5 +302,28 @@ public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 		}
 		
 		return respuesta;
+	}
+	
+	public String repetidos()
+	{
+		String respuesta = "";
+		
+		Nodo nodo1 = primero;
+		Nodo nodo2 = primero.darSiguiente();
+		while(nodo1!=null)
+		{
+			while(nodo2!=null)
+			{
+				if(nodo1.darPosicion()==nodo2.darPosicion())
+				{
+					respuesta += "\n";
+				}
+				nodo2=nodo2.darSiguiente();
+			}
+			nodo1=nodo1.darSiguiente();
+		}
+		return respuesta;
+		
+		
 	}
 }

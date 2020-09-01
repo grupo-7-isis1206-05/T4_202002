@@ -20,7 +20,7 @@ public class Nodo<T> implements Comparable<T>{
 	{
 		posicion=Pposicion;
 	}
-	public T darFeatures()
+	public T darDatos()
 	{
 		return datos;
 	}
@@ -53,7 +53,7 @@ public class Nodo<T> implements Comparable<T>{
 	
 	public String toString()
 	{
-		return ""+datos;
+		return ""+datos.toString();
 	}
 
 	@Override

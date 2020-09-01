@@ -21,7 +21,7 @@ public class Modelo {
 	private IArregloDinamico<Pelicula> peliculas;
 	private IArregloDinamico<Elenco> elenco;
 	
-	
+	private int counterPeliculas;
 	
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
@@ -56,28 +56,28 @@ public class Modelo {
                 br = new BufferedReader(new FileReader(csvFile));
                 while ((line = br.readLine()) != null) {
 
-                    String[] datos = line.split(cvsSplitBy);
-                    String id = datos[0];
-                    String genres = datos[1];
-                    String imbd = datos[2];
-                    String originalLang = datos[3];
-                    String originalTitle = datos[4];
-                    String overview = datos[5];
-                    String popularity = datos[6];
-                    String proCompanies = datos[7];
-                    String proCountries = datos[8];
-                    String releaseDate = datos[9];
-                    String revenue = datos[10];
-                    String runtime = datos[11];
-                    String spokenLanguages = datos[12];
-                    String status = datos[13];
-                    String tagline = datos[14];
-                    String title = datos[15];
-                    String voteAverage = datos[16];
-                    String voteCount = datos[17];
-                    String proCompaniesNumber = datos[18];
-                    String proCompaniesCountryNumber = datos[19];
-                    String spokenLanguagesNumber = datos[20];
+                    String[] movie = line.split(cvsSplitBy);
+                    String id = movie[0];
+                    String genres = movie[1];
+                    String imbd = movie[2];
+                    String originalLang = movie[3];
+                    String originalTitle = movie[4];
+                    String overview = movie[5];
+                    String popularity = movie[6];
+                    String proCompanies = movie[7];
+                    String proCountries = movie[8];
+                    String releaseDate = movie[9];
+                    String revenue = movie[10];
+                    String runtime = movie[11];
+                    String spokenLanguages = movie[12];
+                    String status = movie[13];
+                    String tagline = movie[14];
+                    String title = movie[15];
+                    String voteAverage = movie[16];
+                    String voteCount = movie[17];
+                    String proCompaniesNumber = movie[18];
+                    String proCompaniesCountryNumber = movie[19];
+                    String spokenLanguagesNumber = movie[20];
                  
                      Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
                     		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
@@ -89,26 +89,26 @@ public class Modelo {
                 }
                 pr = new BufferedReader(new FileReader(archivo));
                 while ((line = pr.readLine()) != null) {
-                	String[] datos = line.split(archivo);
-                    String id = datos[0];
-                    String actor1 = datos[1];
-                    String gender1 = datos[2];
-                    String actor2 = datos[3];
-                    String gender2 = datos[4];
-                    String actor3 = datos[5];
-                    String gender3 = datos[6];
-                    String actor4 = datos[7];
-                    String gender4 = datos[8];
-                    String actor5 = datos[9];
-                    String gender5 = datos[10];
-                    String actorNumber = datos[11];
-                    String directorName = datos[12];
-                    String directorGender = datos[13];
-                    String directorNumber = datos[14];
-                    String producerName = datos[15];
-                    String producerNumber = datos[16];
-                    String screenName = datos[17];
-                    String editorName = datos[18];
+                	String[] cast = line.split(cvsSplitBy);
+                    String id = cast[0];
+                    String actor1 = cast[1];
+                    String gender1 = cast[2];
+                    String actor2 = cast[3];	
+                    String gender2 = cast[4];
+                    String actor3 = cast[5];
+                    String gender3 = cast[6];
+                    String actor4 = cast[7];
+                    String gender4 = cast[8];
+                    String actor5 = cast[9];
+                    String gender5 = cast[10];
+                    String actorNumber = cast[11];
+                    String directorName = cast[12];
+                    String directorGender = cast[13];
+                    String directorNumber = cast[14];
+                    String producerName = cast[15];
+                    String producerNumber = cast[16];
+                    String screenName = cast[17];
+                    String editorName = cast[18];
                     
                     Elenco actual = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
                    elenco.agregar(actual);

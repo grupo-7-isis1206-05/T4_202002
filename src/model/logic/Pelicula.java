@@ -158,7 +158,8 @@ public  class Pelicula {
 				+ voteCount+"\n"
 				+ proCompaniesNumber+"\n"
 				+ proCompaniesCountryNumber+"\n"
-				+ spokenLanguagesNumber;
+				+ spokenLanguagesNumber +"\n"
+				+"--------------------------";
 				
 	}
 	public String darDatosReq()

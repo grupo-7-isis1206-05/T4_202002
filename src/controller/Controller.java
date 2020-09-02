@@ -63,6 +63,10 @@ public class Controller {
 					System.exit(0);
 					break;
 					
+				case 4: 
+					view.printMessage(modelo.toStringPeli());
+					break;
+					
 				
 				
 					

@@ -9,9 +9,11 @@ import java.io.IOException;
 
 import model.data_structures.ArregloDinamico;
 import model.data_structures.IArregloDinamico;
+import model.data_structures.IListaEncadenada;
 import model.data_structures.ListaEncadenada;
 import model.data_structures.Nodo;
 import model.logic.Pelicula;
+import model.logic.Elenco;
 
 /**
  * Definicion del modelo del mundo
@@ -24,8 +26,8 @@ public class Modelo {
 	 */
 	private IArregloDinamico<Pelicula> peliculas;
 	private IArregloDinamico<Elenco> elenco;
-	private ListaEncadenada listaPeliculas;
-	private ListaEncadenada listaElenco;
+	private ListaEncadenada<Nodo<Pelicula>> listaPeliculas;
+	private ListaEncadenada<Nodo<Elenco>> listaElenco;
 	
 	
 	private int counterPeliculas;
@@ -37,8 +39,8 @@ public class Modelo {
 	{
 		peliculas = new ArregloDinamico(120);
 		elenco = new ArregloDinamico(120);
-		listaPeliculas= new ListaEncadenada();
-		listaElenco= new ListaEncadenada();
+		listaPeliculas= new ListaEncadenada<Nodo<Pelicula>>();
+		listaElenco= new ListaEncadenada<Nodo<Elenco>>();
 	}
 	
 	
@@ -58,7 +60,7 @@ public class Modelo {
             String cvsSplitBy = ";";
             int posicionPeli =1;
             int posicionElenco=1;
-
+            
             try {
 
                 br = new BufferedReader(new FileReader(csvFile));
@@ -90,7 +92,7 @@ public class Modelo {
                      Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
                     		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
                     		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
-                     Nodo agregar = new Nodo<Pelicula>(actual, null, null, posicionPeli);
+                     Nodo<Pelicula> agregar = new Nodo<Pelicula>(actual, null, null, posicionPeli);
                      listaPeliculas.addLast(agregar);
                      posicionPeli++;
                     
@@ -119,9 +121,11 @@ public class Modelo {
                     String screenName = cast[17];
                     String editorName = cast[18];
                     
-                    Elenco actual = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
-                    Nodo agrego = new Nodo<Elenco>(actual, null,null, posicionElenco);
+                    Elenco agregar = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
+                    Nodo<Elenco> agrego = new Nodo<Elenco>(agregar, null,null, posicionElenco);
                     listaElenco.addLast(agrego);
+                    
+                    
                     posicionElenco++;
                 }
 
@@ -150,7 +154,8 @@ public class Modelo {
     		int j =0;
     		while(i<elenco.darTamano())
     		{
-    			String directorA = listaPeliculas.element(i).toString();
+    			//peliculas.darElemento(2).
+    			String directorA = listaElenco.element(i).toString();
     			if(directorA.equalsIgnoreCase(director))
     			{
     				idABuscar=elenco.darElemento(i).darId();

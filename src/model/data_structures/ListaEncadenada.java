@@ -198,7 +198,7 @@ public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 		while(i<=tamano)
 		{
 			Nodo actual= element(i);
-			if(actual.compareTo(element)==0)
+			if(actual.equals(element))	
 			{
 				respuesta=actual.darPosicion();
 			}

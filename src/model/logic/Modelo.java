@@ -80,13 +80,14 @@ public class Modelo {
                 String tagline = movie[14];
                 String title = movie[15];
                 String voteAverage = movie[16];
+                int average =  Integer.parseInt (voteAverage);
                 String voteCount = movie[17];
                 String proCompaniesNumber = movie[18];
                 String proCompaniesCountryNumber = movie[19];
                 String spokenLanguagesNumber = movie[20];
              
                  Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
-                		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
+                		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,average,voteCount,
                 		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
                  peliculas.agregar(actual);
                  
@@ -177,13 +178,14 @@ public class Modelo {
                     String tagline = movie[14];
                     String title = movie[15];
                     String voteAverage = movie[16];
+                    int average = Integer.parseInt(voteAverage);
                     String voteCount = movie[17];
                     String proCompaniesNumber = movie[18];
                     String proCompaniesCountryNumber = movie[19];
                     String spokenLanguagesNumber = movie[20];
                  
                      Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
-                    		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
+                    		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,average,voteCount,
                     		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
                      Nodo<Pelicula> algo = new Nodo<Pelicula>(actual, null,null,posicionPeli);
                      listaPeliculas.addLast(algo);

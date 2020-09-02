@@ -1,7 +1,7 @@
 package model.data_structures;
 
 
-public  class Pelicula {
+public  class Pelicula  implements Comparable<Pelicula>{
 
 	private String id;
 	private String genres;
@@ -19,13 +19,13 @@ public  class Pelicula {
 	private String status;
 	private String tagline;
 	private String title;
-	private String voteAverage;
+	private int voteAverage;
 	private String voteCount;
 	private String proCompaniesNumber;
 	private String proCompaniesCountryNumber;
 	private String spokenLanguagesNumber;
 
-	public Pelicula (String pId, String pGenres, String pImbd, String pOriginalLang, String pOriginalTitle, String pOverview, String pPopularity, String pProCompanies, String pProCountries, String pReleaseDate, String pRevenue, String pRuntime, String pSpokenLanguages, String pStatus, String pTagline, String pTitle, String pVoteAverage, String pVoteCount,String pProCompaniesNumber, String pProCompaniesCountryNumber, String pSpokenLanguagesNumber )
+	public Pelicula (String pId, String pGenres, String pImbd, String pOriginalLang, String pOriginalTitle, String pOverview, String pPopularity, String pProCompanies, String pProCountries, String pReleaseDate, String pRevenue, String pRuntime, String pSpokenLanguages, String pStatus, String pTagline, String pTitle, int pVoteAverage, String pVoteCount,String pProCompaniesNumber, String pProCompaniesCountryNumber, String pSpokenLanguagesNumber )
 	{
 		id= pId;
 		genres= pGenres;
@@ -115,7 +115,7 @@ public  class Pelicula {
 	{
 		return title;
 	}
-	public String darVoteAverage()
+	public int darVoteAverage()
 	{
 		return voteAverage;
 	}
@@ -171,4 +171,13 @@ public  class Pelicula {
 
 
 	}
+
+	@Override
+	public int compareTo(Pelicula otra) {
+		if (this.voteAverage> otra.voteAverage)return 1;
+		if (this.voteAverage< otra.voteAverage)return -1;
+		// TODO Auto-generated method stub
+		return 0;
+	}
+	
 }

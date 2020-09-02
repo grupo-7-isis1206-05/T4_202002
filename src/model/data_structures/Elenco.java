@@ -1,4 +1,4 @@
-package model.logic;
+package model.data_structures;
 
 import model.data_structures.IArregloDinamico;
 

@@ -1,18 +1,18 @@
 package model.data_structures;
-import java.lang.Comparable;
+
 
 public class Nodo<T> {
 	
 	private T datos;
-	private Nodo siguiente;
+	private Nodo<T> siguiente;
 	private int posicion;
-	private Nodo anterior;
+	private Nodo<T> anterior;
 	
-	public Nodo (T Pdatos, Nodo Psiguiente, Nodo Panterior, int Pposicion){
-		datos=Pdatos;
+	public Nodo (T Pdatos, Nodo<T> Psiguiente, Nodo<T> Panterior, int Pposicion){
+		this.datos=Pdatos;
 		this.siguiente=Psiguiente;
 		this.anterior=Panterior;
-		posicion = Pposicion;
+		this.posicion = Pposicion;
 		
 	}
 	
@@ -22,23 +22,24 @@ public class Nodo<T> {
 	}
 	public T darDatos()
 	{
-		return datos;
+		return this.datos;
+	
 	}
 	
-	public Nodo darSiguiente()
+	public Nodo<T> darSiguiente()
 	{
 		return siguiente;
 	}
-	public void cambiarSiguiente(Nodo Siguiente)
+	public void cambiarSiguiente(Nodo<T> Siguiente)
 	{
 		siguiente= Siguiente;
 	}
-	public Nodo darAnterior()
+	public Nodo<T> darAnterior()
 	{
 		return anterior;
 	}
 	
-	public void cambiarAnterior(Nodo Anterior)
+	public void cambiarAnterior(Nodo<T> Anterior)
 	{
 		anterior=Anterior;
 	}

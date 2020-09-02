@@ -1,8 +1,8 @@
 package model.data_structures;
 
-import com.sun.javafx.collections.ElementObservableListDecorator;
 
-public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
+
+public class ListaEncadenada<T> implements IListaEncadenada<Nodo<T>>{
 
 
 	private Nodo primero;
@@ -155,10 +155,10 @@ public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 		return ultimo;
 	}
 
-	@Override
+	
 	public Nodo element(int posicion) {
 		// TODO Auto-generated method stub
-		int i=0;
+	
 		Nodo respuesta=null;
 		Nodo actual=primero;
 		while(actual!=null)
@@ -288,7 +288,8 @@ public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 		return respuesta;
 	}
 	
-	public int existe(T algo)
+	/**
+	 * public int existe(T algo)
 	{
 		int respuesta=0;
 		Nodo actual=primero;
@@ -303,6 +304,7 @@ public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 		
 		return respuesta;
 	}
+	 */
 	
 	public String repetidos()
 	{
@@ -326,4 +328,6 @@ public class ListaEncadenada<T> implements IListaEncadenada<Nodo>{
 		
 		
 	}
+	
+	
 }

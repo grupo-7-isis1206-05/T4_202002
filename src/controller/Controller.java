@@ -49,7 +49,7 @@ public class Controller {
 				case 2:
 					view.printMessage("--------- \nIngresar nombre del director deseado: ");
 					
-					dato = lector.next();
+					dato = lector.nextLine();
 					
 					view.printMessage("las peliculas con un promedio mayor o igual a 6 del director"+dato+"son:"+modelo.buenasPeliculas(dato));				
 					break;

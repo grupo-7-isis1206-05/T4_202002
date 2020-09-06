@@ -51,7 +51,7 @@ public class Controller {
 					
 					dato = lector.nextLine();
 					
-					view.printMessage("las peliculas con un promedio mayor o igual a 6 del director"+dato+"son:"+modelo.buenasPeliculas(dato));				
+					view.printMessage("las peliculas con un promedio mayo");				
 					break;
 
 				

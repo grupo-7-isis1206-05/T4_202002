@@ -24,8 +24,8 @@ public class Modelo {
 	/**
 	 * Atributos del modelo del mundo
 	 */
-	private IArregloDinamico<Pelicula> peliculas;
-	private IArregloDinamico<Elenco> elenco;
+	private ArregloDinamico<Pelicula> peliculas;
+	
 	private ListaEncadenada<Nodo<Pelicula>> listaPeliculas;
 	private ListaEncadenada listaElenco;
 	
@@ -40,7 +40,6 @@ public class Modelo {
 	public Modelo()
 	{
 		peliculas = new ArregloDinamico(120);
-		elenco = new ArregloDinamico(120);
 		listaPeliculas= new ListaEncadenada<Nodo<Pelicula>>();
 		listaElenco= new ListaEncadenada();
 	}
@@ -80,14 +79,13 @@ public class Modelo {
                 String tagline = movie[14];
                 String title = movie[15];
                 String voteAverage = movie[16];
-                int average =  Integer.parseInt (voteAverage);
                 String voteCount = movie[17];
                 String proCompaniesNumber = movie[18];
                 String proCompaniesCountryNumber = movie[19];
                 String spokenLanguagesNumber = movie[20];
              
                  Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
-                		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,average,voteCount,
+                		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
                 		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
                  peliculas.agregar(actual);
                  
@@ -97,6 +95,7 @@ public class Modelo {
             pr = new BufferedReader(new FileReader(archivo));
             while ((line = pr.readLine()) != null) {
             	String[] cast = line.split(cvsSplitBy);
+            	
                 String id = cast[0];
                 String actor1 = cast[1];
                 String gender1 = cast[2];
@@ -117,11 +116,19 @@ public class Modelo {
                 String screenName = cast[17];
                 String editorName = cast[18];
                 
-                Elenco agregar = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
-                elenco.agregar(agregar);
-                
-                
-                
+                if(!id.equals("id"))
+                {
+                	 Elenco agregar = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
+                 
+                      
+                       for(int i=0; i<peliculas.darTamano();i++ )
+                       {
+                    	  if( peliculas.darElemento(i).equals(id))
+                    	  {
+                    		  peliculas.darElemento(i).añadirElenco(agregar);
+                    	  }
+                       }
+                }
                 
                
             }
@@ -143,7 +150,7 @@ public class Modelo {
     }
 
    
-    	public void cargarDatoLista() throws IOException 
+    /*	public void cargarDatoLista() throws IOException 
         {
         
         	String csvFile = "./data/SmallMoviesDetailsCleaned.csv";
@@ -178,14 +185,13 @@ public class Modelo {
                     String tagline = movie[14];
                     String title = movie[15];
                     String voteAverage = movie[16];
-                    int average = Integer.parseInt(voteAverage);
                     String voteCount = movie[17];
                     String proCompaniesNumber = movie[18];
                     String proCompaniesCountryNumber = movie[19];
                     String spokenLanguagesNumber = movie[20];
                  
                      Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
-                    		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,average,voteCount,
+                    		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
                     		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
                      Nodo<Pelicula> algo = new Nodo<Pelicula>(actual, null,null,posicionPeli);
                      listaPeliculas.addLast(algo);
@@ -197,7 +203,7 @@ public class Modelo {
                 pr = new BufferedReader(new FileReader(archivo));
                 while ((line = pr.readLine()) != null) {
                 	String[] cast = line.split(cvsSplitBy);
-                    String id = cast[0];
+                    int id = Integer.parseInt(cast[0]);
                     String actor1 = cast[1];
                     String gender1 = cast[2];
                     String actor2 = cast[3];	
@@ -217,9 +223,9 @@ public class Modelo {
                     String screenName = cast[17];
                     String editorName = cast[18];
                     
-                    Elenco agregar = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
-                    Nodo<Elenco> agrego = (Nodo<Elenco>) new Nodo<Elenco>(agregar, null,null, posicionElenco);
-                    listaElenco.addLast(agrego);
+                  //  Elenco agregar = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
+                   // Nodo<Elenco> agrego = (Nodo<Elenco>) new Nodo<Elenco>(agregar, null,null, posicionElenco);
+                 //   listaElenco.addLast(agrego);
                     
                     
                     
@@ -244,40 +250,49 @@ public class Modelo {
         }
     	
     	
-    	public String buenasPeliculas(String director)
-    	{
-    		String respuesta = "";
-    		String idABuscar="";
-    		int i = 1;
-    		int j = 1;
-    		while(i<listaElenco.size())
-    		{
-    			//peliculas.darElemento(2).
-    			
-    			Nodo<Elenco> algo = listaElenco.element(i);
-    			
-    			
-    			String directorA = algo.darDatos().darDirectorName();
-    			if(directorA.equalsIgnoreCase(director))
-    			{
-    				idABuscar= algo.darDatos().darId();
-    				respuesta += elenco.darElemento(i).darActores();
-    			}
-    			i++;
-    		}
-    		while(j<listaPeliculas.size())
-    		{
-    			Nodo<Pelicula> peli = listaPeliculas.element(j);
-    			String actualID = peli.darDatos().darId();
-    			if (actualID.equalsIgnoreCase(idABuscar))
-    			{
-    				respuesta+=", "+ peli.darDatos().darDatosReq();
-    			}
-    		j++;	
-    		}
-    		
-    		return respuesta;
-    	}
+//    	public String buenasPeliculas(String director)
+//    	{
+//    		String respuesta = "";
+//    		String idABuscar="";
+//    		int i = 1;
+//    		int j = 1;
+//    		while(i<listaElenco.size())
+//    		{
+//    			//peliculas.darElemento(2).
+//    			
+//    			Nodo<Elenco> algo = listaElenco.element(i);
+//    			
+//    			
+//    			String directorA = algo.darDatos().darDirectorName();
+//    			if(directorA.equalsIgnoreCase(director))
+//    			{
+//    				idABuscar= algo.darDatos().darId();
+//    				respuesta += elenco.darElemento(i).darActores();
+//    			}
+//    			i++;
+//    		}
+//    		while(j<listaPeliculas.size())
+//    		{
+//    			Nodo<Pelicula> peli = listaPeliculas.element(j);
+//    			String actualID = peli.darDatos().darId();
+//    			if (actualID.equalsIgnoreCase(idABuscar))
+//    			{
+//    				respuesta+=", "+ peli.darDatos().darDatosReq();
+//    			}
+//    		j++;	
+//    		}
+//    		
+//    		return respuesta;
+//    	}*/
+	public void encontrarBuenasPeliculas(String director)
+	{
+		String respuesta = "";
+		
+	}
+	
+	
+	
+	
     	public String toStringPeli()
     	{
     		return listaPeliculas.toString();

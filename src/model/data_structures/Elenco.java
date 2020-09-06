@@ -2,7 +2,7 @@ package model.data_structures;
 
 import model.data_structures.IArregloDinamico;
 
-public class Elenco 
+public class Elenco implements Comparable <Elenco>
 {
 
 	private String id;
@@ -156,5 +156,12 @@ public class Elenco
 				actor3+", "+
 				actor4+", "+
 				actor5;
+	}
+
+	@Override
+	public int compareTo(Elenco arg0) {
+		
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

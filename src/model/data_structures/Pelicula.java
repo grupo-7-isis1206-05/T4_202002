@@ -1,7 +1,9 @@
 package model.data_structures;
 
 
-public  class Pelicula  implements Comparable<Pelicula>{
+public  class Pelicula  implements Comparable<Pelicula> {
+	
+	private Elenco elenco;
 
 	private String id;
 	private String genres;
@@ -19,13 +21,13 @@ public  class Pelicula  implements Comparable<Pelicula>{
 	private String status;
 	private String tagline;
 	private String title;
-	private int voteAverage;
+	private String voteAverage;
 	private String voteCount;
 	private String proCompaniesNumber;
 	private String proCompaniesCountryNumber;
 	private String spokenLanguagesNumber;
 
-	public Pelicula (String pId, String pGenres, String pImbd, String pOriginalLang, String pOriginalTitle, String pOverview, String pPopularity, String pProCompanies, String pProCountries, String pReleaseDate, String pRevenue, String pRuntime, String pSpokenLanguages, String pStatus, String pTagline, String pTitle, int pVoteAverage, String pVoteCount,String pProCompaniesNumber, String pProCompaniesCountryNumber, String pSpokenLanguagesNumber )
+	public Pelicula (String pId, String pGenres, String pImbd, String pOriginalLang, String pOriginalTitle, String pOverview, String pPopularity, String pProCompanies, String pProCountries, String pReleaseDate, String pRevenue, String pRuntime, String pSpokenLanguages, String pStatus, String pTagline, String pTitle, String pVoteAverage, String pVoteCount,String pProCompaniesNumber, String pProCompaniesCountryNumber, String pSpokenLanguagesNumber )
 	{
 		id= pId;
 		genres= pGenres;
@@ -48,6 +50,11 @@ public  class Pelicula  implements Comparable<Pelicula>{
 		proCompaniesNumber = pProCompaniesNumber;
 		proCompaniesCountryNumber = pProCompaniesCountryNumber;
 		spokenLanguagesNumber = pSpokenLanguagesNumber;
+		elenco = null;
+	}
+	
+	public void añadirElenco(Elenco pElenco){
+		elenco = pElenco;
 	}
 
 	public String darId()
@@ -115,7 +122,7 @@ public  class Pelicula  implements Comparable<Pelicula>{
 	{
 		return title;
 	}
-	public int darVoteAverage()
+	public 	String darVoteAverage()
 	{
 		return voteAverage;
 	}
@@ -134,6 +141,11 @@ public  class Pelicula  implements Comparable<Pelicula>{
 	public String darSpokenLanguagesNumber()
 	{
 		return spokenLanguagesNumber;
+	}
+
+	public Elenco darElenco()
+	{
+		return elenco;
 	}
 
 	public String toString()
@@ -173,11 +185,17 @@ public  class Pelicula  implements Comparable<Pelicula>{
 	}
 
 	@Override
-	public int compareTo(Pelicula otra) {
+	public int compareTo(Pelicula o) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	
+/*	public int compareTo(Pelicula otra) {
 		if (this.voteAverage> otra.voteAverage)return 1;
 		if (this.voteAverage< otra.voteAverage)return -1;
 		// TODO Auto-generated method stub
 		return 0;
-	}
+	}*/
 	
 }

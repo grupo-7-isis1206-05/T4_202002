@@ -68,7 +68,7 @@ public  class Pelicula  implements Comparable<Pelicula> {
 	{
 		return budget;
 	}
-	public String genres()
+	public String darGenres()
 	{
 		return genres;
 	}

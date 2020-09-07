@@ -61,10 +61,10 @@ public class Controller {
 					break;
 					
 				case 4: 
-					view.printMessage("--------- \n Ingresa el nombre del director deseado: \n---------"); 
-					lector.close();
-					fin = true;
-					System.exit(0);
+					view.printMessage("--------- \nIngresar nombre del director deseado: ");
+					Scanner lector2 = new Scanner(System.in);
+					String directorDeseado2 = lector2.nextLine();
+					view.printMessage(modelo.conocerDirector(directorDeseado2));				
 					break;
 				case 5: 
 					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
@@ -73,10 +73,10 @@ public class Controller {
 					System.exit(0);
 					break;
 				case 6: 
-					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
-					lector.close();
-					fin = true;
-					System.exit(0);
+					view.printMessage("--------- \nIngresar el genero de interes: ");
+					Scanner lector3 = new Scanner(System.in);
+					String generoDeseado = lector3.nextLine();
+					view.printMessage(modelo.entenderGenero(generoDeseado));				
 					break;
 				case 7: 
 					view.printMessage("--------- \n Hasta pronto !! \n---------"); 

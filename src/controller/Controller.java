@@ -48,14 +48,11 @@ public class Controller {
 
 				case 2:
 					view.printMessage("--------- \nIngresar nombre del director deseado: ");
-					
-					dato = lector.nextLine();
-					
-					view.printMessage("las peliculas con un promedio mayo");				
+					Scanner lector1 = new Scanner(System.in);
+					String directorDeseado = lector1.nextLine();
+					view.printMessage(modelo.cantidadBuenasPeliculas(directorDeseado));				
 					break;
 
-				
-					
 				case 3: 
 					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
 					lector.close();
@@ -64,6 +61,37 @@ public class Controller {
 					break;
 					
 				case 4: 
+					view.printMessage("--------- \n Ingresa el nombre del director deseado: \n---------"); 
+					lector.close();
+					fin = true;
+					System.exit(0);
+					break;
+				case 5: 
+					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
+					lector.close();
+					fin = true;
+					System.exit(0);
+					break;
+				case 6: 
+					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
+					lector.close();
+					fin = true;
+					System.exit(0);
+					break;
+				case 7: 
+					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
+					lector.close();
+					fin = true;
+					System.exit(0);
+					break;
+				case 8: 
+					view.printMessage("--------- \n Hasta pronto !! \n---------"); 
+					lector.close();
+					fin = true;
+					System.exit(0);
+					break;
+					
+				case 9: 
 					view.printMessage(modelo.toStringPeli());
 					break;
 					

@@ -1,11 +1,13 @@
 package model.data_structures;
 
+import com.sun.javafx.scene.paint.GradientUtils.Parser;
 
 public  class Pelicula  implements Comparable<Pelicula> {
 	
 	private Elenco elenco;
 
 	private String id;
+	private String budget;
 	private String genres;
 	private String imbd ;
 	private String originalLang;
@@ -27,10 +29,11 @@ public  class Pelicula  implements Comparable<Pelicula> {
 	private String proCompaniesCountryNumber;
 	private String spokenLanguagesNumber;
 
-	public Pelicula (String pId, String pGenres, String pImbd, String pOriginalLang, String pOriginalTitle, String pOverview, String pPopularity, String pProCompanies, String pProCountries, String pReleaseDate, String pRevenue, String pRuntime, String pSpokenLanguages, String pStatus, String pTagline, String pTitle, String pVoteAverage, String pVoteCount,String pProCompaniesNumber, String pProCompaniesCountryNumber, String pSpokenLanguagesNumber )
+	public Pelicula (String pId, String pBudget, String pGenres, String pImbd, String pOriginalLang, String pOriginalTitle, String pOverview, String pPopularity, String pProCompanies, String pProCountries, String pReleaseDate, String pRevenue, String pRuntime, String pSpokenLanguages, String pStatus, String pTagline, String pTitle, String pVoteAverage, String pVoteCount,String pProCompaniesNumber, String pProCompaniesCountryNumber, String pSpokenLanguagesNumber )
 	{
 		id= pId;
 		genres= pGenres;
+		budget = pBudget;
 		imbd= pImbd;
 		originalLang= pOriginalLang;
 		originalTitle= pOriginalTitle;
@@ -60,6 +63,10 @@ public  class Pelicula  implements Comparable<Pelicula> {
 	public String darId()
 	{
 		return id;
+	}
+	public String darBudget()
+	{
+		return budget;
 	}
 	public String genres()
 	{
@@ -184,18 +191,16 @@ public  class Pelicula  implements Comparable<Pelicula> {
 
 	}
 
-	@Override
-	public int compareTo(Pelicula o) {
+	
+
+	
+	public int compareTo(Pelicula otra) {
+		
+		int votoParam = Integer.parseInt(otra.voteAverage); 
+		if (6> votoParam)return -1;
+		if (6<= votoParam)return 1;
 		// TODO Auto-generated method stub
 		return 0;
 	}
-
-	
-/*	public int compareTo(Pelicula otra) {
-		if (this.voteAverage> otra.voteAverage)return 1;
-		if (this.voteAverage< otra.voteAverage)return -1;
-		// TODO Auto-generated method stub
-		return 0;
-	}*/
 	
 }

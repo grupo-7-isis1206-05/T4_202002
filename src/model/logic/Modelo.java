@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import model.data_structures.ArregloDinamico;
 import model.data_structures.IArregloDinamico;
@@ -63,31 +64,35 @@ public class Modelo {
 
                 String[] movie = line.split(cvsSplitBy);
                 String id = movie[0];
-                String genres = movie[1];
-                String imbd = movie[2];
-                String originalLang = movie[3];
-                String originalTitle = movie[4];
-                String overview = movie[5];
-                String popularity = movie[6];
-                String proCompanies = movie[7];
-                String proCountries = movie[8];
-                String releaseDate = movie[9];
-                String revenue = movie[10];
-                String runtime = movie[11];
-                String spokenLanguages = movie[12];
-                String status = movie[13];
-                String tagline = movie[14];
-                String title = movie[15];
-                String voteAverage = movie[16];
-                String voteCount = movie[17];
-                String proCompaniesNumber = movie[18];
-                String proCompaniesCountryNumber = movie[19];
-                String spokenLanguagesNumber = movie[20];
-             
-                 Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
-                		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
-                		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
-                 peliculas.agregar(actual);
+                String budget = movie[1];
+                String genres = movie[2];
+                String imbd = movie[3];
+                String originalLang = movie[4];
+                String originalTitle = movie[5];
+                String overview = movie[6];
+                String popularity = movie[7];
+                String proCompanies = movie[8];
+                String proCountries = movie[9];
+                String releaseDate = movie[10];
+                String revenue = movie[11];
+                String runtime = movie[12];
+                String spokenLanguages = movie[13];
+                String status = movie[4];
+                String tagline = movie[15];
+                String title = movie[16];
+                String voteAverage = movie[17];
+                String voteCount = movie[18];
+                String proCompaniesNumber = movie[19];
+                String proCompaniesCountryNumber = movie[20];
+                String spokenLanguagesNumber = movie[21];
+                if(!id.equals("id"))
+                {
+                	Pelicula actual = new Pelicula (id,budget, genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
+                    		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
+                    		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
+                     peliculas.agregar(actual);
+                                         
+                }
                  
                 
 
@@ -119,13 +124,16 @@ public class Modelo {
                 if(!id.equals("id"))
                 {
                 	 Elenco agregar = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
-                 
+                
                       
                        for(int i=0; i<peliculas.darTamano();i++ )
                        {
-                    	  if( peliculas.darElemento(i).equals(id))
+                    	  
+                    	  if( peliculas.darElemento(i).darId().equals(id))
                     	  {
                     		  peliculas.darElemento(i).añadirElenco(agregar);
+                    		
+                    		
                     	  }
                        }
                 }
@@ -284,13 +292,77 @@ public class Modelo {
 //    		
 //    		return respuesta;
 //    	}*/
-	public void encontrarBuenasPeliculas(String director)
+	public String cantidadBuenasPeliculas(String director)
 	{
-		String respuesta = "";
+		int buenasPeliculas = 0;
+		Double promedio = 0.0;
+		String respuesta = null;
+		boolean encontrado = false;
+		for (int i=0; i< peliculas.darTamano();i++)
+		{ 
+			Pelicula actual = peliculas.darElemento(i);
+			String delActual =actual.darElenco().darDirectorName();
+			if (delActual.equals(director))
+			{
+				encontrado = true;
+				double voteAverage = Double.parseDouble(actual.darVoteAverage());
+				if(voteAverage >= 6)
+				{
+					
+					buenasPeliculas = buenasPeliculas+1;
+					promedio = promedio + voteAverage;
+										
+				}
+			}			
+			
+		}
+		promedio = promedio/ buenasPeliculas;
+		if(encontrado)
+		{
+			respuesta = "El numero de peliculas buenas para el director "+director+ " es de: "+buenasPeliculas+". El promedio de la votacion es de: "+ promedio;
+		}
+		else
+		{
+			respuesta = "El director no se encontro.";
+		}
 		
+		return respuesta;
 	}
 	
-	
+	public String conocerDirector (String nombre)
+	{
+		
+	    ArregloDinamico <String> listaPelis = new ArregloDinamico(335);
+		String respuesta1 = null;
+		String respuesta2 = null;
+		String respuesta3 = null;
+		int numeroPeliculas = 0;
+		int promedio = 0;
+		int promedioFinal= 0;
+		for (int i=0; i< peliculas.darTamano();i++)
+		{ 
+			Pelicula actual = peliculas.darElemento(i);
+			Elenco delActual = actual.darElenco();
+			if (delActual.darDirectorName().equals(nombre))
+			{
+				listaPelis.agregar(actual.darTitle());
+				numeroPeliculas = numeroPeliculas + 1; 
+				respuesta1 = "El numero de peliculas del director"+ nombre+ "es de"+ numeroPeliculas;
+				
+				respuesta2 = "Las peliculas dirigidas por ese director son"+ listaPelis;
+				promedio = promedio + Integer.parseInt(actual.darVoteAverage());
+				promedioFinal = promedio/ listaPelis.darTamano();
+				respuesta3= "El promedio de la calificacion de sus peliculas es de" + promedioFinal;
+			
+			}
+			else
+			{
+				respuesta1 = "El director que ha escrito, no existe";
+			}
+		}
+		
+		return respuesta1 + respuesta2+ respuesta3;
+	}
 	
 	
     	public String toStringPeli()

@@ -380,27 +380,24 @@ public class Modelo {
 		String respuesta1 = null;
 		String respuesta2 = null;
 		String respuesta3 = null;
+		
 		int numeroPeliculas = 0;
-		int promedio = 0;
-		int promedioVotos= 0;
+		Double promedio = 0.0;
+		Double promedioVotos= 0.0;
 		boolean encontrado = false;
 		for (int i=0; i< peliculas.darTamano();i++)
 		{ 
 			Pelicula actual1 = peliculas.darElemento(i);
-			int voteCount = Integer.parseInt(actual1.darVoteCount());
+			String voteCount = actual1.darVoteCount();
 			String generoPorPartes = actual1.darGenres();
-			String[] parts = generoPorPartes.split("|");
-			String part1 = parts[0];
-			String part2 = parts[1];
-			String part3 = parts[2];
-			String part4 = parts[3];
-			if (part1.equals(genero)|| generoPorPartes.equals(genero) )
-			{
-				//System.out.println("holi");
+			
+			if ( generoPorPartes.contains(genero))
+			{				
 				encontrado = true;
 				listaPelis.agregar(actual1.darTitle());
-				numeroPeliculas = numeroPeliculas + 1; 				
-				promedio = promedio + voteCount;				
+				numeroPeliculas = numeroPeliculas + 1; 
+				Double voteCountInt = Double.parseDouble(voteCount);
+				promedio = promedio + voteCountInt;				
 
 			}
 
@@ -408,13 +405,14 @@ public class Modelo {
 		promedioVotos = promedio/ listaPelis.darTamano();
 		if (encontrado)
 		{
-			respuesta1 = "El numero de peliculas del director "+ genero + " es de: "+ numeroPeliculas+".";
-			respuesta2 = "Las peliculas dirigidas por ese director son:  "+ listaPelis;
-			respuesta3= "El promedio de la calificacion de sus peliculas es de: " + promedioVotos+".";
+			respuesta1 = "Las peliculas de este genero son:  "+ listaPelis;
+			respuesta2 = "El numero de peliculas de ese genero son: "+ numeroPeliculas;
+			respuesta3= "El promedio de votos del genero es de: " + promedioVotos+". \n";
+			
 		}
 		else
 		{
-			respuesta1 = "El director que ha escrito, no existe";
+			respuesta1 = "El genero que ha escrito, no existe";
 		}
 
 		return respuesta1 +" "+ respuesta2+" "+ respuesta3;

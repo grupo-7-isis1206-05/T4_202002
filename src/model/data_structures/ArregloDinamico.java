@@ -32,7 +32,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
 		elementos = (T[]) new Comparable[max];
 		tamanoMax = max;
 		tamanoAct = 0;
-		
+
 	}
 
 
@@ -142,7 +142,7 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
 
 	@Override
 	public T darElemento(int i) {
-		 
+
 		return elementos[i];
 	}
 
@@ -154,8 +154,77 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
 	@Override
 	public int compareTo(T o) {
 		// TODO Auto-generated method stub
-		return 0;
+		return this.compareTo(o);
+	}
+
+	public boolean contiene(T o)
+	{
+		boolean respuesta = false;
+		int i =0;
+		while(i<tamanoAct && !respuesta)
+		{
+			if(elementos[i].equals(o))
+			{
+				respuesta=true;
+			}
+			i++;
+		}
+		return respuesta;
+	}
+
+	public int darIndex(T o)
+	{
+
+		int i = 0;
+		boolean done = false;
+		while(i<tamanoMax && !done)
+		{
+			if(elementos[i].compareTo(o)==0)
+			{
+				done = true;
+			}
+			else {
+				i++;
+			}
+		}
+		return i;
+	}
+
+	public void set (int posicion , T o)
+	{
+		elementos[posicion]=o;
+	}
+	public T darsiguiente(int i)
+	{
+		return elementos[i+1];
+	}
+
+	public String posiciones()
+	{
+		String respues="";
+		int i =0;
+		while(i<tamanoAct)
+		{
+			respues+= ""+elementos[i]+" , "+i+"\n";
+			i++;
+		}
+		return respues;
+	}
+	public int darSiguienteIndex(T o)
+	{
+		int i =0;
+		boolean done = false;
+		while(i<tamanoAct && !done)
+		{
+			if(elementos[i].equals(o))
+			{
+				done = true;
+			}
+			else {
+				i++;
+			}
+		}
+		return i++;
 	}
 }
-
 

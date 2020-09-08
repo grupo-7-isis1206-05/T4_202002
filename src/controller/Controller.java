@@ -43,7 +43,9 @@ public class Controller {
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
-				}					
+				}		
+				
+				
 					break;
 
 				case 2:
@@ -91,10 +93,11 @@ public class Controller {
 					System.exit(0);
 					break;
 					
-				case 9: 
-					view.printMessage(modelo.toStringPeli());
+				case 9:
+					Scanner lector4 = new Scanner(System.in);
+					String algo= lector4.nextLine();
+					view.printMessage(modelo.conocerActor(algo));
 					break;
-					
 				
 				
 					

@@ -157,11 +157,11 @@ public  class Pelicula  implements Comparable<Pelicula> {
 
 	public String toString()
 	{
-		return id+"\n"
+		return originalTitle+"\n"
+				+id+"\n"
 				+ genres+"\n"
 				+ imbd +"\n"
 				+ originalLang+"\n"
-				+ originalTitle+"\n"
 				+ overview+"\n"
 				+ popularity+"\n"
 				+ proCompanies+"\n"
@@ -178,7 +178,7 @@ public  class Pelicula  implements Comparable<Pelicula> {
 				+ proCompaniesNumber+"\n"
 				+ proCompaniesCountryNumber+"\n"
 				+ spokenLanguagesNumber +"\n"
-				+"--------------------------";
+				+"-------------------------- \n";
 				
 	}
 	public String darDatosReq()

@@ -1,8 +1,8 @@
 package test.data_structures;
 
 import model.data_structures.ArregloDinamico;
-import uniandes.cupi2.centralPacientes.mundo.Paciente;
-import uniandes.cupi2.contactos.mundo.Contacto;
+
+
 
 import static org.junit.Assert.*;
 
@@ -12,24 +12,23 @@ import org.junit.Test;
 public class TestArregloDinamico {
 
 	private ArregloDinamico arreglo;
-	private static int TAMANO=100;
+	private static int TAMANO=20;
 
 	@Before
 	public void setUp1() {
 		arreglo= new ArregloDinamico(TAMANO);
-	}
-
-	public void setUp2() {
-		for(int i =0; i< TAMANO*2; i++){
-			arreglo.agregar(""+i);
+		for(int i =0; i< TAMANO; i++){
+			arreglo.agregar(i);
 		}
 	}
+
 
 	@Test
 	public void testArregloDinamico() 
 	{
 		setUp1();
-		assertNull( arreglo.darCapacidad() );
+		assertNotNull("se deberia haber creado un arreglo de tamaño"+TAMANO, arreglo);
+
 
 		// TODO
 	}
@@ -38,23 +37,30 @@ public class TestArregloDinamico {
 	public void testDarElemento() {
 
 
-		setUp2();
-		arreglo.darElemento(0);
+		setUp1();
 
-		assertNotNull( "No se encontrÃ³ el Elemento" );
+		assertEquals("el numero esperado, no fue devuelto", 1, arreglo.darElemento(1));
+
 
 		// TODO
 	}
-	public void testBuscar(String dato) {
+	@Test
+	public void testBuscar() {
 		// TODO implementar
-		String c = arreglo.buscar(dato);
-		assertNotNull( c );
-	
-	}
-	public void testEliminar(String dato) {
-		// TODO implementar
-		 arreglo.eliminar(dato);
-			assertNotNull( "Se elimino el elemento con parametro " );
+		setUp1();
+		int aBuscar = 15;
+		assertEquals("el numero esperado, no fue devuelto", 15, arreglo.buscar(aBuscar));
+
 
 	}
+	@Test
+	public void testEliminar() {
+		// TODO implementar
+		setUp1();
+		assertEquals("no se eliminó el numero esperado",8, arreglo.eliminar(8));
+		assertFalse("el numero no fue eliminado", arreglo.contiene(8));
+
+	}
+	
+	
 }  

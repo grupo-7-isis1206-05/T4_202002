@@ -583,7 +583,7 @@ public class Modelo {
 			{
 				respuesta+=arreglo[j].toString();
 			}
-			
+
 		}
 		return respuesta;
 	}
@@ -645,7 +645,10 @@ public class Modelo {
 		}
 
 		for (int j = 0; j < arreglo.length-1; j++) {
-			respuesta+=arreglo[j].toString();
+
+			if(arreglo[j]!=null) {
+				respuesta+=arreglo[j].toString();
+			}
 		}
 
 		return respuesta;
@@ -656,7 +659,7 @@ public class Modelo {
 	{
 		return listaPeliculas.toString();
 	}
-	
+
 	public ArregloDinamico darPeliculas()
 	{
 		return peliculas;

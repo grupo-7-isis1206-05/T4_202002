@@ -145,6 +145,16 @@ public class ArregloDinamico<T extends Comparable<T>> implements IArregloDinamic
 
 		return elementos[i];
 	}
+	
+	public T darPrimer()
+	{
+		return elementos[0];
+	}
+	
+	public T darUlt()
+	{
+		return elementos[tamanoAct-1];
+	}
 
 
 

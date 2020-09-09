@@ -196,7 +196,7 @@ public  class Pelicula  implements Comparable<Pelicula> {
 	
 	public int compareTo(Pelicula otra) {
 		
-		int votoParam = Integer.parseInt(otra.voteAverage); 
+		double votoParam = Double.parseDouble(otra.voteAverage); 
 		if (6> votoParam)return -1;
 		if (6<= votoParam)return 1;
 		// TODO Auto-generated method stub

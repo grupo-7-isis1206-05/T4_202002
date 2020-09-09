@@ -10,7 +10,7 @@ import model.data_structures.ArregloDinamico;
 import model.data_structures.ListaEncadenada;
 import model.data_structures.Nodo;
 import model.data_structures.Pelicula;
-import model.data_structures.ShellSort;
+import model.data_structures.Sort;
 import model.data_structures.Elenco;
 
 /**
@@ -371,7 +371,7 @@ public class Modelo {
 		String respuesta1 = null;
 		String respuesta2 = null;
 		String respuesta3 = null;
-		
+
 		int numeroPeliculas = 0;
 		Double promedio = 0.0;
 		Double promedioVotos= 0.0;
@@ -381,7 +381,7 @@ public class Modelo {
 			Pelicula actual1 = peliculas.darElemento(i);
 			String voteCount = actual1.darVoteCount();
 			String generoPorPartes = actual1.darGenres();
-			
+
 			if ( generoPorPartes.contains(genero))
 			{				
 				encontrado = true;
@@ -399,7 +399,7 @@ public class Modelo {
 			respuesta1 = "Las peliculas de este genero son:  "+ listaPelis;
 			respuesta2 = "El numero de peliculas de ese genero son: "+ numeroPeliculas;
 			respuesta3= "El promedio de votos del genero es de: " + promedioVotos+". \n";
-			
+
 		}
 		else
 		{
@@ -411,43 +411,17 @@ public class Modelo {
 
 
 
-	public String Ranking(int x)
-	{
-
-		int i =0;
-
-		String respuesta ="";
-		Pelicula[] arreglo = new Pelicula[x];
-		while (i<peliculas.darTamano())
-		{
-			Pelicula actual=peliculas.darElemento(i);
-			if(arreglo[x-1]!=null)
-			{
-				ShellSort.sort(arreglo);
-				if(actual.darVoteAverage().compareTo(arreglo[x-1].darVoteAverage())>0)
-				{
-					arreglo[x-1]=actual;
-				}
-
-			}
-			if(i<x-1)
-			{
-				arreglo[i]=actual;
-			}
-		}
-		respuesta+=arreglo.toString();
-		return respuesta;
-
-	}
 
 	public boolean isFull(Pelicula[] a)
 	{
 		boolean respuesta=false;
-		int i=0;
-		while(i<a.length)
-		{
 
+
+		if(a[a.length-1]!=null)
+		{
+			respuesta=true;
 		}
+
 		return respuesta;
 	}
 
@@ -545,24 +519,24 @@ public class Modelo {
 		return respuesta;
 	}
 
-	public String rankingGenero(int x, String genero)
+	public String rankingGenero(int x, int atributo, int ordenamiento, String genero)
 	{
 		String respuesta="";
 		int i =0;
-		
+
 		Pelicula[] arreglo = new Pelicula[x];
+
 		while (i<peliculas.darTamano())
 		{
-
-			Pelicula actual=peliculas.darElemento(i);
-			if(actual.darGenres().contains(genero))
+			if(atributo==1)
 			{
-				if(arreglo[x-1]!=null)
+				Pelicula actual=peliculas.darElemento(i);
+				if(isFull(arreglo))
 				{
-					ShellSort.sort(arreglo);
-					if(actual.darVoteAverage().compareTo(arreglo[x-1].darVoteAverage())>0)
+					Sort.sorting(arreglo);
+					if(actual.darVoteAverage().compareTo(arreglo[arreglo.length-1].darVoteAverage())>0)
 					{
-						arreglo[x-1]=actual;
+						arreglo[arreglo.length-1]=actual;
 					}
 
 				}
@@ -571,16 +545,121 @@ public class Modelo {
 					arreglo[i]=actual;
 				}
 			}
+			if(atributo==2)
+			{
+				Pelicula actual=peliculas.darElemento(i);
+				if(isFull(arreglo))
+				{
+					Sort.sorting(arreglo);
+					if(actual.darVoteCount().compareTo(arreglo[arreglo.length-1].darVoteCount())>0)
+					{
+						arreglo[arreglo.length-1]=actual;
+					}
+
+				}
+				if(i<x-1)
+				{
+					arreglo[i]=actual;
+				}
+
+
+
+			}
+
+
+			i++;
 		}
-		respuesta+=arreglo.toString();
+		if(ordenamiento==1)
+		{
+			Sort.sorting(arreglo);
+		}
+		if(ordenamiento==2)
+		{
+			Sort.invertir(arreglo);
+		}
+
+		for (int j = 0; j < arreglo.length-1; j++) {
+			respuesta+=arreglo[j].toString();
+		}
 		return respuesta;
-		
 	}
+
+	public String Ranking(int x, int atributo, int ordenamiento)
+	{
+
+		int i =0;
+
+		String respuesta ="";
+		Pelicula[] arreglo = new Pelicula[x];
+		while (i<peliculas.darTamano())
+		{
+			if(atributo==1)
+			{
+				Pelicula actual=peliculas.darElemento(i);
+				if(isFull(arreglo))
+				{
+					Sort.sorting(arreglo);
+					if(actual.darVoteAverage().compareTo(arreglo[arreglo.length-1].darVoteAverage())>0)
+					{
+						arreglo[arreglo.length-1]=actual;
+					}
+
+				}
+				if(i<x-1)
+				{
+					arreglo[i]=actual;
+				}
+			}
+			if(atributo==2)
+			{
+				Pelicula actual=peliculas.darElemento(i);
+				if(isFull(arreglo))
+				{
+					Sort.sorting(arreglo);
+					if(actual.darVoteCount().compareTo(arreglo[arreglo.length-1].darVoteCount())>0)
+					{
+						arreglo[arreglo.length-1]=actual;
+					}
+
+				}
+				if(i<x-1)
+				{
+					arreglo[i]=actual;
+				}
+			}
+			i++;
+
+
+		}
+		if(ordenamiento==1)
+		{
+			Sort.sorting(arreglo);
+		}
+		if(ordenamiento==2)
+		{
+			Sort.invertir(arreglo);
+		}
+
+		for (int j = 0; j < arreglo.length-1; j++) {
+			respuesta+=arreglo[j].toString();
+		}
+
+		return respuesta;
+
+	}
+
 	public String toStringPeli()
 	{
 		return listaPeliculas.toString();
 	}
 	
+	public ArregloDinamico darPeliculas()
+	{
+		return peliculas;
+	}
+
+
+
 
 
 }

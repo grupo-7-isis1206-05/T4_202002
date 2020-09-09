@@ -5,13 +5,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-
-import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
 
 import model.data_structures.ArregloDinamico;
-import model.data_structures.IArregloDinamico;
-import model.data_structures.IListaEncadenada;
 import model.data_structures.ListaEncadenada;
 import model.data_structures.Nodo;
 import model.data_structures.Pelicula;
@@ -30,21 +25,18 @@ public class Modelo {
 	private ArregloDinamico<Pelicula> peliculas;
 
 	private ListaEncadenada<Nodo<Pelicula>> listaPeliculas;
-	private ListaEncadenada listaElenco;
 
 
 
 
-	private int counterPeliculas;
 
 	/**
 	 * Constructor del modelo del mundo con capacidad predefinida
 	 */
 	public Modelo()
 	{
-		peliculas = new ArregloDinamico(120);
+		peliculas = new ArregloDinamico<Pelicula>(120);
 		listaPeliculas= new ListaEncadenada<Nodo<Pelicula>>();
-		listaElenco= new ListaEncadenada();
 	}
 
 
@@ -54,8 +46,7 @@ public class Modelo {
 
 		String csvFileS = "./data/SmallMoviesDetailsCleaned.csv";
 		String archivoS = "./data/MoviesCastingRaw-small.csv";
-		String csvFileB = "./data/AllMoviesCastingRaw.csv";
-		String archivoB = "./data/AllMoviesDetailsCleaned.csv";
+
 		BufferedReader br = null;
 		BufferedReader pr = null;
 		String line = "";
@@ -336,7 +327,7 @@ public class Modelo {
 	public String conocerDirector (String nombre)
 	{
 
-		ArregloDinamico <String> listaPelis = new ArregloDinamico(335);
+		ArregloDinamico <String> listaPelis = new ArregloDinamico<String>(335);
 		String respuesta1 = null;
 		String respuesta2 = null;
 		String respuesta3 = null;
@@ -376,7 +367,7 @@ public class Modelo {
 	public String entenderGenero (String genero)
 	{
 
-		ArregloDinamico <String> listaPelis = new ArregloDinamico(335);
+		ArregloDinamico <String> listaPelis = new ArregloDinamico<String>(335);
 		String respuesta1 = null;
 		String respuesta2 = null;
 		String respuesta3 = null;
@@ -505,7 +496,6 @@ public class Modelo {
 
 		int i=0;
 		int j=0;
-		int k=0;
 		while(i<peliculas.darTamano())
 		{
 			Pelicula actual=peliculas.darElemento(i);
@@ -590,20 +580,7 @@ public class Modelo {
 	{
 		return listaPeliculas.toString();
 	}
-	public String toStringElenco()
-	{
-		return listaElenco.toString();
-	}
-
-	public ListaEncadenada darListaPeli()
-	{
-		return listaPeliculas;
-	}
-	public ListaEncadenada darListaElenco()
-	{
-		return listaElenco;
-	}
-
+	
 
 
 }

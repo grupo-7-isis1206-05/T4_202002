@@ -281,6 +281,11 @@ public class BST <Key extends Comparable<Key>, Value>{
 
 	} 
 
+	public boolean contains(Key key) {
+        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
+        return get(key) != null;
+    }
+	
 	private Key max() {
 		// TODO Auto-generated method stub
 		return null;

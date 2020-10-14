@@ -1,255 +1,321 @@
 package model.data_structures;
 
-import java.util.NoSuchElementException;
-
 import sun.misc.Queue;
-//BINARY SEARCH TREE
-public class BST<Key extends Comparable<Key>, Value>   {
-    private static final int INIT_CAPACITY = 2;
-    private Key[] keys;
-    private Value[] vals;
-    private int n = 0;
 
-    
-    public BST() {
-        this(INIT_CAPACITY);
-    }
+public class BST <Key extends Comparable<Key>, Value>{
 
-       public BST(int capacity) { 
-        keys = (Key[]) new Comparable[capacity]; 
-        vals = (Value[]) new Object[capacity]; 
-    }   
+	private Nodo primerElemento;      
 
-    // resize the underlying arrays
-    private void resize(int capacity) {
-        assert capacity >= n;
-        Key[]   tempk = (Key[])   new Comparable[capacity];
-        Value[] tempv = (Value[]) new Object[capacity];
-        for (int i = 0; i < n; i++) {
-            tempk[i] = keys[i];
-            tempv[i] = vals[i];
-        }
-        vals = tempv;
-        keys = tempk;
-    }
+	private class  Nodo   { 
 
-    public int size() {
-        return n;
-    }
+		private Key key;          
+		private Value valor;         
+		private Nodo nIzquierda, nDerecha;    
+		private int numeroElementos;               
+		public Nodo(Key key, Value pValor, int numeroElementos)     
+		{ 
+			this.key = key; this.valor = pValor; this.numeroElementos = numeroElementos; 
+		} 
 
-    /**
-     * Returns true if this symbol table is empty.
-     *
-     * @return {@code true} if this symbol table is empty;
-     *         {@code false} otherwise
-     */
-    public boolean isEmpty() {
-        return size() == 0;
-    }
+	} 
 
+	public int size()  {
 
-   
-    public boolean contains(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to contains() is null");
-        return get(key) != null;
-    }
+		return size(primerElemento); 
+	}  
 
-    
-    public Value get(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to get() is null"); 
-        if (isEmpty()) return null;
-        int i = rank(key); 
-        if (i < n && keys[i].compareTo(key) == 0) return vals[i];
-        return null;
-    } 
+	private int size(Nodo pNodo) {    
 
-    
-    public int rank(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to rank() is null"); 
+		if (pNodo == null)
+		{
+			return 0; 
+		}	  
+		else 
+		{
+			return pNodo.numeroElementos; 
+		}
 
-        int lo = 0, hi = n-1; 
-        while (lo <= hi) { 
-            int mid = lo + (hi - lo) / 2; 
-            int cmp = key.compareTo(keys[mid]);
-            if      (cmp < 0) hi = mid - 1; 
-            else if (cmp > 0) lo = mid + 1; 
-            else return mid; 
-        } 
-        return lo;
-    } 
+	}
 
+	public  Value get(Key key) {  
 
+		return get(primerElemento, key); 
 
-    
-    public void put(Key key, Value val)  {
-        if (key == null) throw new IllegalArgumentException("first argument to put() is null"); 
+	}
 
-        if (val == null) {
-            delete(key);
-            return;
-        }
+	private Value get(Nodo pNodo, Key key) {  
 
-        int i = rank(key);
+		if (pNodo == null) 
+		{
+			return null;  
+		}
 
-        // key is already in table
-        if (i < n && keys[i].compareTo(key) == 0) {
-            vals[i] = val;
-            return;
-        }
+		int rComparacion = key.compareTo(pNodo.key);  
 
-        
-        if (n == keys.length) resize(2*keys.length);
+		if (rComparacion < 0) 
+		{
+			return get(pNodo.nIzquierda, key);  
+		}
+		else if (rComparacion > 0) 
+		{
+			return get(pNodo.nDerecha, key);  
+		}
+		else
+		{
+			return pNodo.valor; 
+		}
 
-        for (int j = n; j > i; j--)  {
-            keys[j] = keys[j-1];
-            vals[j] = vals[j-1];
-        }
-        keys[i] = key;
-        vals[i] = val;
-        n++;
+	} 
 
-        assert check();
-    } 
+	public void put(Key key, Value pValor){  
 
-  
-    public void delete(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to delete() is null"); 
-        if (isEmpty()) return;
+		primerElemento = put(primerElemento, key, pValor); 
 
-        // compute rank
-        int i = rank(key);
+	} 
 
-        // key not in table
-        if (i == n || keys[i].compareTo(key) != 0) {
-            return;
-        }
+	private Nodo put(Nodo pNodo, Key key, Value pValor) {  
 
-        for (int j = i; j < n-1; j++)  {
-            keys[j] = keys[j+1];
-            vals[j] = vals[j+1];
-        }
+		if (pNodo == null) 
+		{
+			return new Nodo(key, pValor, 1); 
+		}
 
-        n--;
-        keys[n] = null;  // to avoid loitering
-        vals[n] = null;
+		int cmp = key.compareTo(pNodo.key); 
 
-        // resize if 1/4 full
-        if (n > 0 && n == keys.length/4) resize(keys.length/2);
+		if (cmp < 0) 
+		{
+			pNodo.nIzquierda  = put(pNodo.nIzquierda,  key, pValor);  
+		}
+		else if(cmp > 0) 
+		{
+			pNodo.nDerecha = put(pNodo.nDerecha, key, pValor); 
+		}
+		else
+		{
+			pNodo.valor = pValor;  
+		}
 
-        assert check();
-    } 
+		pNodo.numeroElementos = size(pNodo.nIzquierda) + size(pNodo.nDerecha) + 1; 
+		return pNodo;
 
-    /**
-     * Removes the smallest key and associated value from this symbol table.
-     *
-     * @throws NoSuchElementException if the symbol table is empty
-     */
-    public void deleteMin() {
-        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow error");
-        delete(min());
-    }
+	}
 
-    /**
-     * Removes the largest key and associated value from this symbol table.
-     *
-     * @throws NoSuchElementException if the symbol table is empty
-     */
-    public void deleteMax() {
-        if (isEmpty()) throw new NoSuchElementException("Symbol table underflow error");
-        delete(max());
-    }
+	public Key min() {    
 
+		return min(primerElemento).key; 
 
-  
-    public Key min() {
-        if (isEmpty()) throw new NoSuchElementException("called min() with empty symbol table");
-        return keys[0]; 
-    }
+	} 
 
-    /**
-     * Returns the largest key in this symbol table.
-     *
-     * @return the largest key in this symbol table
-     * @throws NoSuchElementException if this symbol table is empty
-     */
-    public Key max() {
-        if (isEmpty()) throw new NoSuchElementException("called max() with empty symbol table");
-        return keys[n-1];
-    }
+	private Nodo min(Nodo x) {  
 
- 
-    public Key select(int k) {
-        if (k < 0 || k >= size()) {
-            throw new IllegalArgumentException("called select() with invalid argument: " + k);
-        }
-        return keys[k];
-    }
+		if (x.nIzquierda == null) 
+		{
+			return x;  
+		}
+		return min(x.nIzquierda);
 
-    
-    public Key floor(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to floor() is null"); 
-        int i = rank(key);
-        if (i < n && key.compareTo(keys[i]) == 0) return keys[i];
-        if (i == 0) return null;
-        else return keys[i-1];
-    }
+	} 
 
-    
-    public Key ceiling(Key key) {
-        if (key == null) throw new IllegalArgumentException("argument to ceiling() is null"); 
-        int i = rank(key);
-        if (i == n) return null; 
-        else return keys[i];
-    }
+	public Key floor(Key key) {     
 
-    public int size(Key lo, Key hi) {
-        if (lo == null) throw new IllegalArgumentException("first argument to size() is null"); 
-        if (hi == null) throw new IllegalArgumentException("second argument to size() is null"); 
+		Nodo x = floor(primerElemento, key);  
+		if (x == null) 
+		{
+			return null;   
+		}
+		return x.key; 
 
-        if (lo.compareTo(hi) > 0) return 0;
-        if (contains(hi)) return rank(hi) - rank(lo) + 1;
-        else              return rank(hi) - rank(lo);
-    }
+	} 
 
-    
-    public Queue<Key> keys() {
-        return keys(min(), max());
-    }
+	private Nodo floor(Nodo pNodo, Key key){  
 
-   
-    public Queue<Key> keys(Key lo, Key hi) {
-        if (lo == null) throw new IllegalArgumentException("first argument to keys() is null"); 
-        if (hi == null) throw new IllegalArgumentException("second argument to keys() is null"); 
+		if (pNodo == null) 
+		{
+			return null;  
+		}
 
-        Queue<Key> queue = new Queue<Key>(); 
-        if (lo.compareTo(hi) > 0) return queue;
-        for (int i = rank(lo); i < rank(hi); i++) 
-            queue.enqueue(keys[i]);
-        if (contains(hi)) queue.enqueue(keys[rank(hi)]);
-        return queue; 
-    }
+		int rComparacion = key.compareTo(pNodo.key);   
+		if (rComparacion == 0) 
+		{
+			return pNodo;   
+		}
+		if (rComparacion < 0) 
+		{
+			return floor(pNodo.nIzquierda, key);   
+		}
 
+		Nodo nTemporal = floor(pNodo.nDerecha, key);  
+		if (nTemporal != null) 
+		{
+			return nTemporal;  
+		}
+		else  
+		{
+			return pNodo; 
+		}
 
-    private boolean check() {
-        return isSorted() && rankCheck();
-    }
+	}
 
-    // are the items in the array in ascending order?
-    private boolean isSorted() {
-        for (int i = 1; i < size(); i++)
-            if (keys[i].compareTo(keys[i-1]) < 0) return false;
-        return true;
-    }
+	public Key select(int posKey) {     
 
-    // check that rank(select(i)) = i
-    private boolean rankCheck() {
-        for (int i = 0; i < size(); i++)
-            if (i != rank(select(i))) return false;
-        for (int i = 0; i < size(); i++)
-            if (keys[i].compareTo(select(rank(keys[i]))) != 0) return false;
-        return true;
-    }
+		return select(primerElemento, posKey).key; 
 
+	} 
 
-   
+	private Nodo select(Nodo pNodo, int posKey) {  
+
+		if (pNodo == null)
+		{
+			return null;    
+		}
+
+		int posTemporal = size(pNodo.nIzquierda);   
+		if(posTemporal > posKey) 
+		{
+			return select(pNodo.nIzquierda,  posKey);  
+		}
+		else if (posTemporal < posKey) 
+		{
+			return select(pNodo.nDerecha, posKey-posTemporal-1);  
+		}
+		else 
+		{
+			return pNodo; 
+		}
+
+	} 
+
+	public int rank(Key key){  
+
+		return rank(key, primerElemento); 
+
+	}
+
+	private int rank(Key key, Nodo pNodo) {  
+
+		if (pNodo == null) 
+		{
+			return 0;   
+		}
+		
+		int cmp = key.compareTo(pNodo.key);   
+		if (cmp < 0) 
+		{
+			return rank(key, pNodo.nIzquierda); 
+		}
+		else if (cmp > 0) 
+		{
+			return 1 + size(pNodo.nIzquierda) + rank(key, pNodo.nDerecha);  
+		}
+		else 
+		{
+			return size(pNodo.nIzquierda); 
+		}
+
+	}
+
+	public void deleteMin(){    
+
+		primerElemento = deleteMin(primerElemento); 
+
+	} 
+
+	private Nodo deleteMin(Nodo pNodo) {  
+
+		if (pNodo.nIzquierda == null) 
+		{
+			return pNodo.nDerecha; 
+		}
+		
+		pNodo.nIzquierda = deleteMin(pNodo.nIzquierda);  
+		pNodo.numeroElementos = size(pNodo.nIzquierda) + size(pNodo.nDerecha) + 1; 
+		return pNodo; 
+
+	} 
+
+	public void delete(Key key) { 
+
+		primerElemento = delete(primerElemento, key); 
+
+	} 
+
+	private Nodo delete(Nodo pNodo, Key key){   
+
+		if (pNodo == null) 
+		{
+			return null;   
+		}
+		
+		int rComparacion = key.compareTo(pNodo.key);  
+		if(rComparacion < 0) 
+		{
+			pNodo.nIzquierda  = delete(pNodo.nIzquierda,  key);  
+		}
+		else if (rComparacion > 0) 
+		{
+			pNodo.nDerecha = delete(pNodo.nDerecha, key); 
+		}
+		else    
+		{   
+			if (pNodo.nDerecha == null) 
+			{
+				return pNodo.nIzquierda;  
+			}
+			if (pNodo.nIzquierda == null)
+			{
+				return pNodo.nDerecha;     
+			}
+			Nodo nTemporal = pNodo;  
+			pNodo = min(nTemporal.nDerecha); 
+			pNodo.nDerecha = deleteMin(nTemporal.nDerecha);   
+			pNodo.nIzquierda = nTemporal.nIzquierda;   
+		} 
+		
+		pNodo.numeroElementos = size(pNodo.nIzquierda) + size(pNodo.nDerecha) + 1;
+		return pNodo; 
+	}
+
+	public Iterable<Key> keys(){ 
+
+		return keys(min(), max());  
+
+	} 
+
+	private Key max() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Iterable<Key> keys(Key lo, Key hi){    
+
+		Queue<Key> queue = new Queue<Key>();  
+		keys(primerElemento, queue, lo, hi);  
+		return (Iterable<Key>) queue; 
+
+	} 
+
+	private void keys(Nodo pNodo, Queue<Key> queue, Key lo, Key hi){  
+
+		if (pNodo == null) 
+		{
+			return; 
+		}
+		
+		int cmplo = lo.compareTo(pNodo.key); 
+		int cmphi = hi.compareTo(pNodo.key);  
+		if (cmplo < 0) 
+		{
+			keys(pNodo.nIzquierda, queue, lo, hi);  
+		}
+		if (cmplo <= 0 && cmphi >= 0)
+{
+			queue.enqueue(pNodo.key);  
+		}
+		if (cmphi > 0) 
+		{
+			keys(pNodo.nDerecha, queue, lo, hi);
+		}
+
+	}
+
 }

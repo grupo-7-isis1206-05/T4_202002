@@ -6,7 +6,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import com.sun.corba.se.impl.encoding.CodeSetConversion.BTCConverter;
+
 import model.data_structures.ArregloDinamico;
+import model.data_structures.BST;
 import model.data_structures.ListaEncadenada;
 import model.data_structures.Nodo;
 import model.data_structures.Pelicula;
@@ -23,8 +26,10 @@ public class Modelo {
 	 * Atributos del modelo del mundo
 	 */
 	private ArregloDinamico<Pelicula> peliculas;
-
+	private ArregloDinamico<Accidente> accidentess;
 	private ListaEncadenada<Nodo<Pelicula>> listaPeliculas;
+	
+	private BST<String, ArregloDinamico<Accidente>> bst;
 
 
 
@@ -36,625 +41,224 @@ public class Modelo {
 	public Modelo()
 	{
 		peliculas = new ArregloDinamico<Pelicula>(120);
+		accidentess = new ArregloDinamico<Accidente>(120);
+
 		listaPeliculas= new ListaEncadenada<Nodo<Pelicula>>();
+		bst = new BST<String, ArregloDinamico<Accidente>>();
 	}
 
-
-
-	public void cargarDato() throws IOException 
+	
+	public void cargar() throws IOException
 	{
-
-		String csvFileS = "./data/SmallMoviesDetailsCleaned.csv";
-		String archivoS = "./data/MoviesCastingRaw-small.csv";
-
-		BufferedReader br = null;
-		BufferedReader pr = null;
-		String line = "";
-		String cvsSplitBy = ";";
-
+		String archivo = "./data/us_accidents_small.csv";
+		BufferedReader reader = null;
+		String linea ="";
 		try {
+		reader= new BufferedReader(new FileReader(archivo));
+		while ((linea=reader.readLine())!=null)
+		{
+			linea=reader.readLine();
+			String[] accidentes = linea.split(",");
+			String id = accidentes[0];
+			String source = accidentes[1];
+			
+			 double tmc= 0;
+			 if(!accidentes[2].isEmpty())
+			 {
+				 tmc=Double.parseDouble(accidentes[2]);
+			 }
+			 double severity= Double.parseDouble(accidentes[3]);
+			 String start_time= accidentes[4];
+			 String end_time= accidentes[5];
+			 double start_lat= Double.parseDouble(accidentes[6]);
+			 double start_long= Double.parseDouble(accidentes[7]);
+			double end_lat=0;
+			 if(!accidentes[8].isEmpty())
+			 {
+				end_lat= Double.parseDouble(accidentes[8]);
+			 }
+			 
+				 double end_long=0;
+			 
+			 if(!accidentes[9].isEmpty())
+			 {
+				  end_long= Double.parseDouble(accidentes[9]);
+			 }
+			 
+			
+			 double distance= Double.parseDouble(accidentes[10]);
+			 String description= accidentes[11];
+			 
+			 double number= 0;
+			 if(!accidentes[12].isEmpty())
+			 {
+				 number=Double.parseDouble(accidentes[12]);
+			 }
+			 String street= accidentes[13];
+			 String side= accidentes[14];
+			 String city= accidentes[15];
+			 String county= accidentes[16];
+			 String state= accidentes[17];
+			 String zipCode= accidentes[18];
+			 String country = accidentes[19];
+			 String timeZone= accidentes[20];
+			 String airportCode= accidentes[21];
+			 String weathertimestamp=accidentes[22];
+			 
+			 double temperatureFarenheit=0;
+			 if(!accidentes[23].isEmpty())
+			 {
+				 temperatureFarenheit=Double.parseDouble(accidentes[23]);
+			 }
+			 
+			 double windChillFarenheit=0;
+			 if(!accidentes[24].isEmpty())
+			 {
+				 windChillFarenheit=Double.parseDouble(accidentes[24]);
+			 }
+			 double humidity=0;
+			 if(!accidentes[25].isEmpty())
+			 {
+				 humidity=Double.parseDouble(accidentes[25]);
+			 }
+			 double preassure=0;
+			 if(!accidentes[26].isEmpty())
+			 {
+				 preassure=Double.parseDouble(accidentes[26]);
+			 }
+			 double visibility=0;
+			 if(!accidentes[27].isEmpty())
+			 {
+				 visibility=Double.parseDouble(accidentes[27]);
+			 }
+			 String windDirection=accidentes[28];
+			 double windSpeed=0;
+			 if(!accidentes[29].isEmpty())
+			 {
+				 windSpeed=Double.parseDouble(accidentes[29]);
+			 }
+			 double precipitacion=0;
+			 if(!accidentes[30].isEmpty())
+			 {
+				 precipitacion=Double.parseDouble(accidentes[30]);
+			 }
+			 String weatherCondition=accidentes[31];
+			 
+			 boolean amenity=Boolean.parseBoolean(accidentes[32]);
+			 boolean bump=Boolean.parseBoolean(accidentes[33]);
+			 boolean crossing=Boolean.parseBoolean(accidentes[34]);
+			 boolean give_way=Boolean.parseBoolean(accidentes[35]);
+			 boolean junction=Boolean.parseBoolean(accidentes[36]);
+			 boolean noExit=Boolean.parseBoolean(accidentes[37]);
+			 boolean railway=Boolean.parseBoolean(accidentes[38]);
+			 boolean roundAbout=Boolean.parseBoolean(accidentes[39]);
+			 boolean station=Boolean.parseBoolean(accidentes[40]);
+			 boolean stop=Boolean.parseBoolean(accidentes[41]);
+			 boolean trafficCalming=Boolean.parseBoolean(accidentes[42]);
+			 boolean trafficSignal=Boolean.parseBoolean(accidentes[43]);
+			 boolean turningLoop=Boolean.parseBoolean(accidentes[44]);
+			 String sunriseSunset=accidentes[45];
+			 String civilTwilight=accidentes[46];
+			 String nauticalTwilight=accidentes[47];
+			 String astronomicalTwilight=accidentes[48];
+			 
+			 String[] llave = start_time.split(" ");
+			 
+			 Accidente agregar = new Accidente(id, source, tmc, severity, start_time, end_time, start_lat, start_long, end_lat, end_long, distance, description, number, street, side, city, county, state, zipCode, country, timeZone, airportCode, weathertimestamp, temperatureFarenheit, windChillFarenheit, humidity, preassure, visibility, windDirection, windSpeed, precipitacion, weatherCondition, amenity, bump, crossing, give_way, junction, noExit, railway, roundAbout, station, stop, trafficCalming, trafficSignal, turningLoop, sunriseSunset, civilTwilight, nauticalTwilight, astronomicalTwilight);
+			// bst.put(id, agregar);
+			 accidentess.agregar(agregar);
+			
 
-			br = new BufferedReader(new FileReader(csvFileS));
-			while ((line = br.readLine()) != null) {
-
-				String[] movie = line.split(cvsSplitBy);
-				String id = movie[0];
-				String budget = movie[1];
-				String genres = movie[2];
-				String imbd = movie[3];
-				String originalLang = movie[4];
-				String originalTitle = movie[5];
-				String overview = movie[6];
-				String popularity = movie[7];
-				String proCompanies = movie[8];
-				String proCountries = movie[9];
-				String releaseDate = movie[10];
-				String revenue = movie[11];
-				String runtime = movie[12];
-				String spokenLanguages = movie[13];
-				String status = movie[14];
-				String tagline = movie[15];
-				String title = movie[16];
-				String voteAverage = movie[17];
-				String voteCount = movie[18];
-				String proCompaniesNumber = movie[19];
-				String proCompaniesCountryNumber = movie[20];
-				String spokenLanguagesNumber = movie[21];
-				if(!id.equals("id"))
-				{
-					Pelicula actual = new Pelicula (id,budget, genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
-							proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
-							proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
-					peliculas.agregar(actual);
-
-				}
-
-
-
-			}
-			pr = new BufferedReader(new FileReader(archivoS));
-			while ((line = pr.readLine()) != null) {
-				String[] cast = line.split(cvsSplitBy);
-
-				String id = cast[0];
-				String actor1 = cast[1];
-				String gender1 = cast[2];
-				String actor2 = cast[3];	
-				String gender2 = cast[4];
-				String actor3 = cast[5];
-				String gender3 = cast[6];
-				String actor4 = cast[7];
-				String gender4 = cast[8];
-				String actor5 = cast[9];
-				String gender5 = cast[10];
-				String actorNumber = cast[11];
-				String directorName = cast[12];
-				String directorGender = cast[13];
-				String directorNumber = cast[14];
-				String producerName = cast[15];
-				String producerNumber = cast[16];
-				String screenName = cast[17];
-				String editorName = cast[18];
-
-				if(!id.equals("id"))
-				{
-					Elenco agregar = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
-
-
-					for(int i=0; i<peliculas.darTamano();i++ )
-					{
-
-						if( peliculas.darElemento(i).darId().equals(id))
-						{
-							peliculas.darElemento(i).añadirElenco(agregar);
-
-
-						}
-					}
-				}
-
-
-			}
-
-		} catch (FileNotFoundException e) {
+		}
+		}
+		catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
-			if (br != null) {
+			if (reader != null) {
 				try {
-					br.close();
+					reader.close();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
-			}
-		}
-
 	}
-
-
-	/*	public void cargarDatoLista() throws IOException 
-        {
-
-        	String csvFile = "./data/SmallMoviesDetailsCleaned.csv";
-        	String archivo = "./data/MoviesCastingRaw-small.csv";
-            BufferedReader br = null;
-            BufferedReader pr = null;
-            String line = "";
-            String cvsSplitBy = ";";
-            int posicionPeli =1;
-            int posicionElenco=1;
-
-            try {
-
-                br = new BufferedReader(new FileReader(csvFile));
-                while ((line = br.readLine()) != null) {
-
-                    String[] movie = line.split(cvsSplitBy);
-                    String id = movie[0];
-                    String genres = movie[1];
-                    String imbd = movie[2];
-                    String originalLang = movie[3];
-                    String originalTitle = movie[4];
-                    String overview = movie[5];
-                    String popularity = movie[6];
-                    String proCompanies = movie[7];
-                    String proCountries = movie[8];
-                    String releaseDate = movie[9];
-                    String revenue = movie[10];
-                    String runtime = movie[11];
-                    String spokenLanguages = movie[12];
-                    String status = movie[13];
-                    String tagline = movie[14];
-                    String title = movie[15];
-                    String voteAverage = movie[16];
-                    String voteCount = movie[17];
-                    String proCompaniesNumber = movie[18];
-                    String proCompaniesCountryNumber = movie[19];
-                    String spokenLanguagesNumber = movie[20];
-
-                     Pelicula actual = new Pelicula (id,genres,imbd,originalLang, originalTitle,overview,popularity,proCompanies,
-                    		proCountries,releaseDate,revenue,runtime,spokenLanguages,status,tagline,title,voteAverage,voteCount,
-                    		proCompaniesNumber,proCompaniesCountryNumber,spokenLanguagesNumber);
-                     Nodo<Pelicula> algo = new Nodo<Pelicula>(actual, null,null,posicionPeli);
-                     listaPeliculas.addLast(algo);
-                     posicionPeli++;
-
-
-
-                }
-                pr = new BufferedReader(new FileReader(archivo));
-                while ((line = pr.readLine()) != null) {
-                	String[] cast = line.split(cvsSplitBy);
-                    int id = Integer.parseInt(cast[0]);
-                    String actor1 = cast[1];
-                    String gender1 = cast[2];
-                    String actor2 = cast[3];	
-                    String gender2 = cast[4];
-                    String actor3 = cast[5];
-                    String gender3 = cast[6];
-                    String actor4 = cast[7];
-                    String gender4 = cast[8];
-                    String actor5 = cast[9];
-                    String gender5 = cast[10];
-                    String actorNumber = cast[11];
-                    String directorName = cast[12];
-                    String directorGender = cast[13];
-                    String directorNumber = cast[14];
-                    String producerName = cast[15];
-                    String producerNumber = cast[16];
-                    String screenName = cast[17];
-                    String editorName = cast[18];
-
-                  //  Elenco agregar = new Elenco (id, actor1,gender1,actor2, gender2,actor3,gender3, actor4,gender4,actor5,gender5, actorNumber,directorName,directorGender,directorNumber, producerName, producerNumber, screenName, editorName ); 
-                   // Nodo<Elenco> agrego = (Nodo<Elenco>) new Nodo<Elenco>(agregar, null,null, posicionElenco);
-                 //   listaElenco.addLast(agrego);
-
-
-
-
-                    posicionElenco++;
-                }
-
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (br != null) {
-                    try {
-                        br.close();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-        }
-
-
-//    	public String buenasPeliculas(String director)
-//    	{
-//    		String respuesta = "";
-//    		String idABuscar="";
-//    		int i = 1;
-//    		int j = 1;
-//    		while(i<listaElenco.size())
-//    		{
-//    			//peliculas.darElemento(2).
-//    			
-//    			Nodo<Elenco> algo = listaElenco.element(i);
-//    			
-//    			
-//    			String directorA = algo.darDatos().darDirectorName();
-//    			if(directorA.equalsIgnoreCase(director))
-//    			{
-//    				idABuscar= algo.darDatos().darId();
-//    				respuesta += elenco.darElemento(i).darActores();
-//    			}
-//    			i++;
-//    		}
-//    		while(j<listaPeliculas.size())
-//    		{
-//    			Nodo<Pelicula> peli = listaPeliculas.element(j);
-//    			String actualID = peli.darDatos().darId();
-//    			if (actualID.equalsIgnoreCase(idABuscar))
-//    			{
-//    				respuesta+=", "+ peli.darDatos().darDatosReq();
-//    			}
-//    		j++;	
-//    		}
-//    		
-//    		return respuesta;
-//    	}*/
-	public String cantidadBuenasPeliculas(String director)
-	{
-		int buenasPeliculas = 0;
-		Double promedio = 0.0;
-		String respuesta = null;
-		boolean encontrado = false;
-		for (int i=0; i< peliculas.darTamano();i++)
-		{ 
-			Pelicula actual = peliculas.darElemento(i);
-			String delActual =actual.darElenco().darDirectorName();
-			if (delActual.equals(director))
-			{
-				encontrado = true;
-				double voteAverage = Double.parseDouble(actual.darVoteAverage());
-				if(voteAverage >= 6)
-				{
-
-					buenasPeliculas = buenasPeliculas+1;
-					promedio = promedio + voteAverage;
-
-				}
-			}			
-
 		}
-		promedio = promedio/ buenasPeliculas;
-		if(encontrado)
-		{
-			respuesta = "El numero de peliculas buenas para el director "+director+ " es de: "+buenasPeliculas+". El promedio de la votacion es de: "+ promedio;
-		}
-		else
-		{
-			respuesta = "El director no se encontro.";
-		}
-
-		return respuesta;
 	}
-
-	public String conocerDirector (String nombre)
+	
+	
+	public int cargarABST()
 	{
-
-		ArregloDinamico <String> listaPelis = new ArregloDinamico<String>(335);
-		String respuesta1 = null;
-		String respuesta2 = null;
-		String respuesta3 = null;
-		int numeroPeliculas = 0;
-		double promedio = 0.0;
-		double promedioFinal= 0.0;
-		boolean encontrado = false;
-		for (int i=0; i< peliculas.darTamano();i++)
-		{ 
-			Pelicula actual = peliculas.darElemento(i);
-			Elenco delActual = actual.darElenco();
-			if (delActual.darDirectorName().equals(nombre))
-			{
-				encontrado = true;
-				listaPelis.agregar(actual.darTitle());
-				numeroPeliculas = numeroPeliculas + 1; 				
-				promedio = promedio + Double.parseDouble(actual.darVoteAverage());				
-
-			}
-
-		}
-		promedioFinal = promedio/ listaPelis.darTamano();
-		if (encontrado)
-		{
-			respuesta1 = "El numero de peliculas del director "+ nombre+ " es de: "+ numeroPeliculas+".";
-			respuesta2 = "Las peliculas dirigidas por ese director son:  "+ listaPelis;
-			respuesta3= "El promedio de la calificacion de sus peliculas es de: " + promedioFinal+".";
-		}
-		else
-		{
-			respuesta1 = "El director que ha escrito, no existe";
-		}
-
-		return respuesta1 +" "+ respuesta2+" "+ respuesta3;
-	}
-
-	public String entenderGenero (String genero)
-	{
-
-		ArregloDinamico <String> listaPelis = new ArregloDinamico<String>(335);
-		String respuesta1 = null;
-		String respuesta2 = null;
-		String respuesta3 = null;
-
-		int numeroPeliculas = 0;
-		Double promedio = 0.0;
-		Double promedioVotos= 0.0;
-		boolean encontrado = false;
-		for (int i=0; i< peliculas.darTamano();i++)
-		{ 
-			Pelicula actual1 = peliculas.darElemento(i);
-			String voteCount = actual1.darVoteCount();
-			String generoPorPartes = actual1.darGenres();
-
-			if ( generoPorPartes.contains(genero))
-			{				
-				encontrado = true;
-				listaPelis.agregar(actual1.darTitle());
-				numeroPeliculas = numeroPeliculas + 1; 
-				Double voteCountInt = Double.parseDouble(voteCount);
-				promedio = promedio + voteCountInt;				
-
-			}
-
-		}
-		promedioVotos = promedio/ listaPelis.darTamano();
-		if (encontrado)
-		{
-			respuesta1 = "Las peliculas de este genero son:  "+ listaPelis;
-			respuesta2 = "El numero de peliculas de ese genero son: "+ numeroPeliculas;
-			respuesta3= "El promedio de votos del genero es de: " + promedioVotos+". \n";
-
-		}
-		else
-		{
-			respuesta1 = "El genero que ha escrito, no existe";
-		}
-
-		return respuesta1 +" "+ respuesta2+" "+ respuesta3;
-	}
-
-
-
-
-	public boolean isFull(Pelicula[] a)
-	{
-		boolean respuesta=false;
-
-
-		if(a[a.length-1]!=null)
-		{
-			respuesta=true;
-		}
-
-		return respuesta;
-	}
-
-	public String conocerActor(String actor)
-	{
-		String respuesta="";
-		int cantidad =0;
-		double votacion = 0;
-		String director = MasColaboraciones(actor);
-
-		String pelis= "";
+		int counter =0;
 		int i =0;
-		while(i<peliculas.darTamano())
+		while(i<accidentess.darTamano())
 		{
-			Pelicula actual = peliculas.darElemento(i);
-
-
-			String actual1 = peliculas.darElemento(i).darElenco().darActor1();
-			String actual2 = peliculas.darElemento(i).darElenco().darActor2();
-			String actual3 = peliculas.darElemento(i).darElenco().darActor3();
-			String actual4 = peliculas.darElemento(i).darElenco().darActor4();
-			String actual5 = peliculas.darElemento(i).darElenco().darActor5();
-
-			if(actual1.equalsIgnoreCase(actor)||actual2.equalsIgnoreCase(actor)||actual3.equalsIgnoreCase(actor)||actual4.equalsIgnoreCase(actor)||actual5.equalsIgnoreCase(actor))
+			Accidente actual = accidentess.darElemento(i);
+			String[] sum = actual.darStartTime().split(" ");
+			String llave = sum[0];
+			System.out.println(llave);
+			if(!bst.contains(llave))
 			{
-				cantidad++;
-				votacion += Double.parseDouble(actual.darVoteAverage());
-				pelis+=actual.toString();
-
+				ArregloDinamico<Accidente> add = new ArregloDinamico<Accidente>(20);
+				add.agregar(actual);
+				bst.put(llave, add);
 			}
-
+			else 
+			{
+				bst.get(llave).agregar(actual);
+			}
+			counter++;
 			i++;
 		}
-
-		double promedio = votacion/cantidad;
-		respuesta= "el actor "+actor+" ha participado en "+cantidad+" peliculas. Con un promedio de votacion de "+promedio+
-				". El director con el que mas ha colaborado es:"+director+" Y la lista de sus peliculas es: \n"+pelis;
-		return respuesta;
+		return counter;
 	}
-
-	public String MasColaboraciones(String actor)
+	
+	public String req1(String fecha)
 	{
-
-		ArregloDinamico<String> algo = new ArregloDinamico<String>(20);			
-		String respuesta= algo.darElemento(0);
-
-		int i=0;
-		int j=0;
-		while(i<peliculas.darTamano())
+		String respuesta = "";
+		if(bst.contains(fecha))
 		{
-			Pelicula actual=peliculas.darElemento(i);
-			String actual1 = peliculas.darElemento(i).darElenco().darActor1();
-			String actual2 = peliculas.darElemento(i).darElenco().darActor2();
-			String actual3 = peliculas.darElemento(i).darElenco().darActor3();
-			String actual4 = peliculas.darElemento(i).darElenco().darActor4();
-			String actual5 = peliculas.darElemento(i).darElenco().darActor5();
-			if(actual1.equalsIgnoreCase(actor)||actual2.equalsIgnoreCase(actor)||actual3.equalsIgnoreCase(actor)||actual4.equalsIgnoreCase(actor)||actual5.equalsIgnoreCase(actor))
+			int i =0;
+			while (i<bst.get(fecha).darTamano())
 			{
-				String directorA = actual.darElenco().darDirectorName();
-
-				algo.agregar(directorA);
-
+				
+				Accidente actual = bst.get(fecha).darElemento(i);
+				respuesta+=actual.toStringCorto();
+				i++;
 			}
-			i++;
 		}
-
-		while(j<algo.darTamano())
+		else 
 		{
-
-			String compare = algo.darElemento(j);
-			if(repetido(algo, respuesta)<repetido(algo,compare))
-			{
-				respuesta=compare;
-			}
-			j++;
+			respuesta="no se encontraron accidentes en esa fecha";
 		}
-
-
+		
 		return respuesta;
 	}
-
-	public int repetido(ArregloDinamico<String> a, String b )
+	
+	public void ordenarPorSeveridad(ArregloDinamico<Accidente> algo)
 	{
-		int respuesta =0;
-		int i=0;
-		while (i<a.darTamano())
-		{
-			if(a.darElemento(i).equals(b))
-			{
-				respuesta++;
+		for (int i = 0; i < algo.darTamano(); i++) {
+			Accidente actual = algo.darElemento(i);
+			for (int j = 1; j < algo.darTamano(); j++) {
+				Accidente actual2 = algo.darElemento(j);
+				if(actual2.darSeverity()>actual.darSeverity())
+				{
+					Accidente swap = actual;
+					algo.set(i, actual2);
+					algo.set(j, actual);
+				}
 			}
-			i++;
 		}
-
-		return respuesta;
 	}
-
-	public String rankingGenero(int x, int atributo, int ordenamiento, String genero)
+	public BST<String, ArregloDinamico<Accidente>> prueba()
 	{
-		String respuesta="";
-		int i =0;
-
-		Pelicula[] arreglo = new Pelicula[x];
-
-		while (i<peliculas.darTamano())
-		{
-			if(atributo==1)
-			{
-				Pelicula actual=peliculas.darElemento(i);
-				if(isFull(arreglo))
-				{
-					Sort.sorting(arreglo);
-					if(actual.darVoteAverage().compareTo(arreglo[arreglo.length-1].darVoteAverage())>0)
-					{
-						arreglo[arreglo.length-1]=actual;
-					}
-
-				}
-				if(i<x-1)
-				{
-					arreglo[i]=actual;
-				}
-			}
-			if(atributo==2)
-			{
-				Pelicula actual=peliculas.darElemento(i);
-				if(isFull(arreglo))
-				{
-					Sort.sorting(arreglo);
-					if(actual.darVoteCount().compareTo(arreglo[arreglo.length-1].darVoteCount())>0)
-					{
-						arreglo[arreglo.length-1]=actual;
-					}
-
-				}
-				if(i<x-1)
-				{
-					arreglo[i]=actual;
-				}
-
-
-
-			}
-
-
-			i++;
-		}
-		if(ordenamiento==1)
-		{
-			Sort.sorting(arreglo);
-		}
-		if(ordenamiento==2)
-		{
-			Sort.invertir(arreglo);
-		}
-
-		for (int j = 0; j < arreglo.length-1; j++) {
-			if(arreglo[j]!=null)
-			{
-				respuesta+=arreglo[j].toString();
-			}
-
-		}
-		return respuesta;
+		return bst;
 	}
-
-	public String Ranking(int x, int atributo, int ordenamiento)
+	public ArregloDinamico<Accidente> prueba2()
 	{
-
-		int i =0;
-
-		String respuesta ="";
-		Pelicula[] arreglo = new Pelicula[x];
-		while (i<peliculas.darTamano())
-		{
-			if(atributo==1)
-			{
-				Pelicula actual=peliculas.darElemento(i);
-				if(isFull(arreglo))
-				{
-					Sort.sorting(arreglo);
-					if(actual.darVoteAverage().compareTo(arreglo[arreglo.length-1].darVoteAverage())>0)
-					{
-						arreglo[arreglo.length-1]=actual;
-					}
-
-				}
-				if(i<x-1)
-				{
-					arreglo[i]=actual;
-				}
-			}
-			if(atributo==2)
-			{
-				Pelicula actual=peliculas.darElemento(i);
-				if(isFull(arreglo))
-				{
-					Sort.sorting(arreglo);
-					if(actual.darVoteCount().compareTo(arreglo[arreglo.length-1].darVoteCount())>0)
-					{
-						arreglo[arreglo.length-1]=actual;
-					}
-
-				}
-				if(i<x-1)
-				{
-					arreglo[i]=actual;
-				}
-			}
-			i++;
-
-
-		}
-		if(ordenamiento==1)
-		{
-			Sort.sorting(arreglo);
-		}
-		if(ordenamiento==2)
-		{
-			Sort.invertir(arreglo);
-		}
-
-		for (int j = 0; j < arreglo.length-1; j++) {
-
-			if(arreglo[j]!=null) {
-				respuesta+=arreglo[j].toString();
-			}
-		}
-
-		return respuesta;
-
+		return accidentess;
 	}
-
+	
 	public String toStringPeli()
 	{
 		return listaPeliculas.toString();
